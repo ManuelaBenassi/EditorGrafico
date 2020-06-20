@@ -26,7 +26,7 @@ public class Janela extends JFrame
 
     protected boolean esperaPonto, esperaInicioReta, esperaFimReta, 
                       esperaInicioCirculo, esperaFimCirculo,
-                      esperaInicioOval, esperaMeioOval, esperaFimOval;
+                      esperaInicioElipse, esperaMeioElipse, esperaFimElipse;
 
     protected Color corFora = Color.BLACK;
     protected Ponto p1, p2;
@@ -144,7 +144,7 @@ public class Janela extends JFrame
         btnPonto.addActionListener (new DesenhoDePonto());
         btnLinha.addActionListener (new DesenhoDeReta ());
         btnCirculo.addActionListener(new DesenhoDeCirculo());
-        btnElipse.addActionListener(new DesenhoDeOval());
+        btnElipse.addActionListener(new DesenhoDeElipse());
 
         JPanel     pnlBotoes = new JPanel();
         FlowLayout flwBotoes = new FlowLayout(); 
@@ -182,6 +182,8 @@ public class Janela extends JFrame
                               implements MouseListener,
                                          MouseMotionListener
     {
+        static final long serialVersionUID = 2000; //variavel apenas para tirar a marcação de aviso
+        
 	    public MeuJPanel()
         {
             super();
@@ -239,30 +241,30 @@ public class Janela extends JFrame
                             statusBar1.setText("Mensagem:");
                         }
                         else
-                            if(esperaInicioOval)
+                            if(esperaInicioElipse)
                             {
                                 p1 = new Ponto (e.getX(), e.getY(), corFora);
-                                esperaInicioOval = false;
-                                esperaMeioOval = true;
-                                esperaFimOval = false;
-                                statusBar1.setText("Mensagem: estabeleça um dos diametros da oval"); 
+                                esperaInicioElipse = false;
+                                esperaMeioElipse = true;
+                                esperaFimElipse = false;
+                                statusBar1.setText("Mensagem: estabeleça um dos diametros da elipse"); 
                             }
                             else
-                                if(esperaMeioOval)
+                                if(esperaMeioElipse)
                                 {
                                     p2 = new Ponto (e.getX(), e.getY(), corFora);
-                                    esperaInicioOval = false;
-                                    esperaMeioOval = false;
-                                    esperaFimOval = true;
-                                    statusBar1.setText("Mensagem: estabeleça o outro diametro diametro da oval");
+                                    esperaInicioElipse = false;
+                                    esperaMeioElipse = false;
+                                    esperaFimElipse = true;
+                                    statusBar1.setText("Mensagem: estabeleça o outro diametro diametro da elipse");
                                 }
                                 else
-                                    if(esperaFimOval)
+                                    if(esperaFimElipse)
                                     {
-                                        esperaFimOval = false;
-                                        esperaMeioOval = false;
-                                        esperaInicioOval = false;
-                                        figuras.add(new Oval(p1.getX(), p1.getY(), //primeiro ponto
+                                        esperaFimElipse = false;
+                                        esperaMeioElipse = false;
+                                        esperaInicioElipse = false;
+                                        figuras.add(new Elipse(p1.getX(), p1.getY(), //primeiro ponto
                                                              p2.getX(), p2.getY(), //altura
                                                              e.getX(), e.getY(), //largura
                                                              corFora)); 
@@ -334,7 +336,7 @@ public class Janela extends JFrame
         }
     }
 
-    protected class DesenhoDeOval implements ActionListener
+    protected class DesenhoDeElipse implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {
@@ -343,10 +345,10 @@ public class Janela extends JFrame
             esperaFimReta = false;
             esperaInicioCirculo = false;
             esperaFimCirculo = false;
-            esperaInicioOval = true;
-            esperaFimOval = false;
+            esperaInicioElipse = true;
+            esperaFimElipse = false;
 
-            statusBar1.setText("Mensagem: clique no inicio da oval");
+            statusBar1.setText("Mensagem: clique no inicio da elipse");
         }
     }
 

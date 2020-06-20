@@ -1,11 +1,11 @@
 import java.awt.*;
 
-public class Oval extends Figura
+public class Elipse extends Figura
 {
     Ponto p1, p2, p3;
     int altura, largura;
 
-    public Oval(int x1, int y1, int x2, int y2, int x3, int y3, Color cor)
+    public Elipse(int x1, int y1, int x2, int y2, int x3, int y3, Color cor)
     {
         super(cor);
 
