@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -23,10 +24,12 @@ public class Janela extends JFrame
     protected JLabel statusBar1 = new JLabel ("Mensagem:"),
                      statusBar2 = new JLabel ("Coordenada:");
 
-    protected boolean esperaPonto, esperaInicioReta, esperaFimReta, esperaInicioCirculo, esperaFimCirculo;
+    protected boolean esperaPonto, esperaInicioReta, esperaFimReta, 
+                      esperaInicioCirculo, esperaFimCirculo,
+                      esperaInicioOval, esperaMeioOval, esperaFimOval;
 
     protected Color corFora = Color.BLACK;
-    protected Ponto p1;
+    protected Ponto p1, p2;
     
     protected Vector<Figura> figuras = new Vector<Figura>();
 
@@ -141,6 +144,7 @@ public class Janela extends JFrame
         btnPonto.addActionListener (new DesenhoDePonto());
         btnLinha.addActionListener (new DesenhoDeReta ());
         btnCirculo.addActionListener(new DesenhoDeCirculo());
+        btnElipse.addActionListener(new DesenhoDeOval());
 
         JPanel     pnlBotoes = new JPanel();
         FlowLayout flwBotoes = new FlowLayout(); 
@@ -234,6 +238,37 @@ public class Janela extends JFrame
                             figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics());
                             statusBar1.setText("Mensagem:");
                         }
+                        else
+                            if(esperaInicioOval)
+                            {
+                                p1 = new Ponto (e.getX(), e.getY(), corFora);
+                                esperaInicioOval = false;
+                                esperaMeioOval = true;
+                                esperaFimOval = false;
+                                statusBar1.setText("Mensagem: estabeleça um dos diametros da oval"); 
+                            }
+                            else
+                                if(esperaMeioOval)
+                                {
+                                    p2 = new Ponto (e.getX(), e.getY(), corFora);
+                                    esperaInicioOval = false;
+                                    esperaMeioOval = false;
+                                    esperaFimOval = true;
+                                    statusBar1.setText("Mensagem: estabeleça o outro diametro diametro da oval");
+                                }
+                                else
+                                    if(esperaFimOval)
+                                    {
+                                        esperaFimOval = false;
+                                        esperaMeioOval = false;
+                                        esperaInicioOval = false;
+                                        figuras.add(new Oval(p1.getX(), p1.getY(), //primeiro ponto
+                                                             p2.getX(), p2.getY(), //altura
+                                                             e.getX(), e.getY(), //largura
+                                                             corFora)); 
+                                        figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics());
+                                        statusBar1.setText("Mensagem:");
+                                    }
         }
         
         public void mouseReleased (MouseEvent e)
@@ -296,6 +331,22 @@ public class Janela extends JFrame
             esperaFimCirculo = false;
 
             statusBar1.setText("Mensagem: clique no inicio do circulo");
+        }
+    }
+
+    protected class DesenhoDeOval implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            esperaPonto = false;
+            esperaInicioReta = false;
+            esperaFimReta = false;
+            esperaInicioCirculo = false;
+            esperaFimCirculo = false;
+            esperaInicioOval = true;
+            esperaFimOval = false;
+
+            statusBar1.setText("Mensagem: clique no inicio da oval");
         }
     }
 

@@ -49,7 +49,7 @@ public class Circulo extends Figura
         int larguraTriangulo = this.p1.getX() - this.p2.getX(); //delta x
         int alturaTriangulo = this.p1.getY() - this.p2.getY(); //delta y
         
-        double hipotenusa = (alturaTriangulo * alturaTriangulo) + (larguraTriangulo * larguraTriangulo); //calculo basico de pitagoras
+        int hipotenusa = (alturaTriangulo * alturaTriangulo) + (larguraTriangulo * larguraTriangulo); //calculo basico de pitagoras
 
         this.altura = (int)Math.sqrt(hipotenusa); //pega a parte inteira da raiz quadrada da hipotenusa
         this.largura = this.altura; //define as dimensoes
