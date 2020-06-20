@@ -23,7 +23,7 @@ public class Janela extends JFrame
     protected JLabel statusBar1 = new JLabel ("Mensagem:"),
                      statusBar2 = new JLabel ("Coordenada:");
 
-    protected boolean esperaPonto, esperaInicioReta, esperaFimReta;
+    protected boolean esperaPonto, esperaInicioReta, esperaFimReta, esperaInicioCirculo, esperaFimCirculo;
 
     protected Color corFora = Color.BLACK;
     protected Ponto p1;
@@ -32,7 +32,7 @@ public class Janela extends JFrame
 
     public Janela ()
     {
-        super("Editor Gr·fico");
+        super("Editor Grafico");
 
         try
         {
@@ -42,7 +42,7 @@ public class Janela extends JFrame
         catch (IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo abrir.jpg n„o foi encontrado",
+                                           "Arquivo abrir.jpg nao foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -55,7 +55,7 @@ public class Janela extends JFrame
         catch (IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo salvar.jpg n„o foi encontrado",
+                                           "Arquivo salvar.jpg nao foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -68,7 +68,7 @@ public class Janela extends JFrame
         catch (IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo ponto.jpg n„o foi encontrado",
+                                           "Arquivo ponto.jpg nao foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -81,7 +81,7 @@ public class Janela extends JFrame
         catch (IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo linha.jpg n„o foi encontrado",
+                                           "Arquivo linha.jpg nao foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -94,7 +94,7 @@ public class Janela extends JFrame
         catch (IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo circulo.jpg n„o foi encontrado",
+                                           "Arquivo circulo.jpg nao foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -107,7 +107,7 @@ public class Janela extends JFrame
         catch (IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo elipse.jpg n„o foi encontrado",
+                                           "Arquivo elipse.jpg nao foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -120,7 +120,7 @@ public class Janela extends JFrame
         catch (IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo cores.jpg n„o foi encontrado",
+                                           "Arquivo cores.jpg nao foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -133,13 +133,14 @@ public class Janela extends JFrame
         catch (IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo cores.jpg n„o foi encontrado",
+                                           "Arquivo cores.jpg nao foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
 
         btnPonto.addActionListener (new DesenhoDePonto());
         btnLinha.addActionListener (new DesenhoDeReta ());
+        btnCirculo.addActionListener(new DesenhoDeCirculo());
 
         JPanel     pnlBotoes = new JPanel();
         FlowLayout flwBotoes = new FlowLayout(); 
@@ -177,7 +178,7 @@ public class Janela extends JFrame
                               implements MouseListener,
                                          MouseMotionListener
     {
-	public MeuJPanel()
+	    public MeuJPanel()
         {
             super();
 
@@ -206,8 +207,8 @@ public class Janela extends JFrame
                     esperaInicioReta = false;
                     esperaFimReta = true;
                     statusBar1.setText("Mensagem: clique o ponto final da reta");    
-                 }
-                 else
+                }
+                else
                     if (esperaFimReta)
                     {
                         esperaInicioReta = false;
@@ -216,6 +217,23 @@ public class Janela extends JFrame
                         figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                         statusBar1.setText("Mensagem:");    
                     }
+                else
+                    if(esperaInicioCirculo)
+                    {
+                        p1 = new Ponto (e.getX(), e.getY(), corFora);
+                        esperaInicioCirculo = false;
+                        esperaFimCirculo = true;
+                        statusBar1.setText("Mensagem: estabele√ßa o diametro do circulo"); 
+                    }
+                    else
+                        if(esperaFimCirculo)
+                        {
+                            esperaFimCirculo = false;
+                            esperaInicioCirculo = false;
+                            figuras.add(new Circulo(p1.getX(), p1.getY(), e.getX(), e.getY(), corFora));
+                            figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics());
+                            statusBar1.setText("Mensagem:");
+                        }
         }
         
         public void mouseReleased (MouseEvent e)
@@ -241,25 +259,43 @@ public class Janela extends JFrame
 
     protected class DesenhoDePonto implements ActionListener
     {
-          public void actionPerformed (ActionEvent e)    
-          {
-              esperaPonto      = true;
-              esperaInicioReta = false;
-              esperaFimReta    = false;
+        public void actionPerformed(ActionEvent e)    
+        {
+            esperaPonto = true;
+            esperaInicioReta = false;
+            esperaFimReta = false;
+            esperaInicioCirculo = false;
+            esperaFimCirculo = false;
 
-              statusBar1.setText("Mensagem: clique o local do ponto desejado");
-          }
+            statusBar1.setText("Mensagem: clique o local do ponto desejado");
+        }
     }
 
     protected class DesenhoDeReta implements ActionListener
     {
         public void actionPerformed (ActionEvent e)    
         {
-            esperaPonto      = false;
+            esperaPonto = false;
             esperaInicioReta = true;
-            esperaFimReta    = false;
+            esperaFimReta = false;
+            esperaInicioCirculo = false;
+            esperaFimCirculo = false;
 
             statusBar1.setText("Mensagem: clique o ponto inicial da reta");
+        }
+    }
+
+    protected class DesenhoDeCirculo implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)
+        {
+            esperaPonto = false;
+            esperaInicioReta = false;
+            esperaFimReta = false;
+            esperaInicioCirculo = true;
+            esperaFimCirculo = false;
+
+            statusBar1.setText("Mensagem: clique no inicio do circulo");
         }
     }
 
