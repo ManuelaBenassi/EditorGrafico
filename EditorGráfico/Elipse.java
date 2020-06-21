@@ -97,4 +97,56 @@ public class Elipse extends Figura
                ":" +
                this.getCor().getBlue();
     }
+    @Override
+    public Object clone()
+    {
+        Elipse clone = null;
+        try
+        {
+            clone = new Elipse(this);
+        }
+        catch(Exception e)
+        {}      
+        return clone;
+    }
+    public Elipse(Elipse modelo) throws Exception{
+        if(modelo==null){
+            throw new Exception("não pode ser nulo");
+        }
+        this.p1 = modelo.p1;
+        this.p2 = modelo.p2;
+        this.p3 = modelo.p3;
+        this.altura = modelo.altura;
+        this.largura = modelo.largura;
+
+    }
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj == null)
+            return false;
+        if(obj == this)
+            return true;
+        if(obj.getClass() != this.getClass())
+            return false;
+        Elipse elipse = (Elipse) obj;
+        if(!this.p1.equals(elipse.p1) || !this.p2.equals(elipse.p2) || !this.p3.equals(elipse.p3) ||
+        this.altura != elipse.altura || this.largura != elipse.largura)
+            return false;
+        return true;
+    }
+    @Override
+    public int hashCode()
+    {
+        int ret = 111;
+        ret = ret *5 + this.p1.hashCode();
+        ret = ret * 5 + this.p2.hashCode();
+        ret = ret * 5 + this.p3.hashCode();
+        ret = ret * 5 + new Integer(this.altura).hashCode();
+        ret = ret * 5 + new Integer(this.largura).hashCode();
+        if(ret<0)
+            ret = -ret;
+
+        return ret;
+    }
 }

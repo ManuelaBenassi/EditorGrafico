@@ -145,6 +145,7 @@ public class Janela extends JFrame
         btnLinha.addActionListener (new DesenhoDeReta ());
         btnCirculo.addActionListener(new DesenhoDeCirculo());
         btnElipse.addActionListener(new DesenhoDeElipse());
+        btnCorFora.addActionListener(new CorFora());
 
         JPanel     pnlBotoes = new JPanel();
         FlowLayout flwBotoes = new FlowLayout(); 
@@ -351,7 +352,11 @@ public class Janela extends JFrame
             statusBar1.setText("Mensagem: clique no inicio da elipse");
         }
     }
-
+    protected class CorFora implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            
+        }
+    }
     protected class FechamentoDeJanela extends WindowAdapter
     {
         public void windowClosing (WindowEvent e)
