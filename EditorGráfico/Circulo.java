@@ -38,7 +38,7 @@ public class Circulo extends Figura
         return this.p2;
     }
 
-    public void torneSeVisivel(Graphics g,Color c)
+    public void torneSeVisivel(Graphics g)
     {
         g.setColor(this.cor);
         calculaTamanho();// caclcula as dimensoes do quadrado

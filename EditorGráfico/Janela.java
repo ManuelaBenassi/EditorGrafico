@@ -29,6 +29,7 @@ public class Janela extends JFrame
                       esperaInicioElipse, esperaMeioElipse, esperaFimElipse;
 
     protected Color corFora = Color.BLACK;
+    protected Color corDentro = Color.LIGHT_GRAY;
     protected Ponto p1, p2;
     
     protected Vector<Figura> figuras = new Vector<Figura>();
@@ -373,8 +374,8 @@ public class Janela extends JFrame
             
                 
             try {
-             corFora = JColorChooser.showDialog( Janela.this,
-             "Selecione uma cor", corFora );
+             corDentro = JColorChooser.showDialog( Janela.this,
+             "Selecione uma cor", corDentro );
      
                 
             } catch (Exception ex) {
