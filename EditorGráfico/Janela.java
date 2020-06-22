@@ -355,6 +355,20 @@ public class Janela extends JFrame
     protected class CorFora implements ActionListener{
         public void actionPerformed(ActionEvent e){
             
+                
+                try {
+                 corFora = JColorChooser.showDialog( Janela.this,
+                 "Selecione uma cor", corFora );
+         
+                    
+                } catch (Exception ex) {
+                    
+                    System.out.println(ex.getMessage());
+                } 
+                
+                
+                
+
         }
     }
     protected class FechamentoDeJanela extends WindowAdapter

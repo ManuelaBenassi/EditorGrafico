@@ -29,4 +29,5 @@ public abstract class Figura
   //public abstract Object  clone          ();
     public abstract String  toString       ();
     public abstract void    torneSeVisivel (Graphics g);
+    
 }
