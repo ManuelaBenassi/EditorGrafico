@@ -4,7 +4,7 @@ public class Circulo extends Figura
 {
     protected Ponto p1, p2;
     protected int altura, largura;
-    Cor ecor = new Cor();
+   
     //
     
 

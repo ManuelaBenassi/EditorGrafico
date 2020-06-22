@@ -146,6 +146,7 @@ public class Janela extends JFrame
         btnCirculo.addActionListener(new DesenhoDeCirculo());
         btnElipse.addActionListener(new DesenhoDeElipse());
         btnCorFora.addActionListener(new CorFora());
+        btnCorDentro.addActionListener(new CorDentro());
 
         JPanel     pnlBotoes = new JPanel();
         FlowLayout flwBotoes = new FlowLayout(); 
@@ -364,12 +365,24 @@ public class Janela extends JFrame
                 } catch (Exception ex) {
                     
                     System.out.println(ex.getMessage());
-                } 
-                
-                
-                
-
+                }
         }
+    }
+    protected class CorDentro implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            
+                
+            try {
+             corFora = JColorChooser.showDialog( Janela.this,
+             "Selecione uma cor", corFora );
+     
+                
+            } catch (Exception ex) {
+                
+                System.out.println(ex.getMessage());
+            }
+            
+    }
     }
     protected class FechamentoDeJanela extends WindowAdapter
     {
