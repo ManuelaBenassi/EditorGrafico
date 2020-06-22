@@ -3,7 +3,7 @@ import java.awt.*;
 public class Elipse extends Figura
 {
     Ponto p1, p2, p3;
-    int altura, largura;
+    int altura = 0, largura = 0;
 
     public Elipse(int x1, int y1, int x2, int y2, int x3, int y3, Color cor)
     {
@@ -57,6 +57,8 @@ public class Elipse extends Figura
     }
 
     private void calculaTamanho(){
+
+        /* Método antigo, não muito bom
         int baseTriangulo, alturaTriangulo, hipotenusa;
 
         // calculo da hipotenusa do 'primeiro' triangulo
@@ -73,7 +75,54 @@ public class Elipse extends Figura
 
         hipotenusa = (baseTriangulo * baseTriangulo) + (alturaTriangulo * alturaTriangulo);
 
-        this.altura  = (int) Math.sqrt(hipotenusa);
+        this.altura  = (int) Math.sqrt(hipotenusa);*/
+
+        //Novo método, funciona melhor
+        int deltaX, deltaY;
+        
+        //calculando o primeiro ponto
+        deltaX = this.p1.getX() - this.p2.getX(); //achando o deltaX
+
+        if(deltaX < 0)
+            deltaX = -deltaX;
+
+        deltaY = this.p1.getY() - this.p2.getY(); //achando o deltaY
+
+        if(deltaY < 0)
+            deltaY = -deltaY;
+
+        if(deltaX >= deltaY) //verifico qual dos Deltas devo utilizar
+            if(this.largura == 0)
+                this.largura = deltaX;
+            else
+                this.altura = deltaX;
+        else
+            if(this.altura == 0)
+                this.altura = deltaY;
+            else
+                this.largura = deltaY;
+
+        //calculando o segundo ponto
+        deltaX = this.p1.getX() - this.p3.getX();
+
+        if(deltaX < 0)
+            deltaX = -deltaX;
+
+        deltaY = this.p1.getY() - this.p3.getY();
+
+        if(deltaY < 0)
+            deltaY = -deltaY;
+
+        if(deltaX >= deltaY)
+            if(this.largura == 0)
+                this.largura = deltaX;
+            else
+                this.altura = deltaX;
+        else
+            if(this.altura == 0)
+                this.altura = deltaY;
+            else
+                this.largura = deltaY;
     }
 
     public String toString()
