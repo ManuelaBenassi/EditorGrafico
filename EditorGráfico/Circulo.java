@@ -4,9 +4,6 @@ public class Circulo extends Figura
 {
     protected Ponto p1, p2;
     protected int altura, largura;
-    Cor ecor = new Cor();
-    //
-    
 
     public Circulo(int x1, int y1, int x2, int y2, Color cor)
     {
@@ -49,13 +46,40 @@ public class Circulo extends Figura
 
     private void calculaTamanho()
     {
-        int larguraTriangulo = this.p1.getX() - this.p2.getX(); //delta x
+        //método antigo, não funcional
+        /*int larguraTriangulo = this.p1.getX() - this.p2.getX(); //delta x
         int alturaTriangulo = this.p1.getY() - this.p2.getY(); //delta y
         
         int hipotenusa = (alturaTriangulo * alturaTriangulo) + (larguraTriangulo * larguraTriangulo); //calculo basico de pitagoras
 
         this.altura = (int)Math.sqrt(hipotenusa); //pega a parte inteira da raiz quadrada da hipotenusa
-        this.largura = this.altura; //define as dimensoes
+        this.largura = this.altura; //define as dimensoes*/
+
+        //novo método, funciona melhor
+        int deltaX, deltaY;
+
+        deltaX = this.p1.getX() - this.p2.getX();
+
+        if(deltaX < 0)
+            deltaX = -deltaX;
+
+        deltaY = this.p1.getY() - this.p2.getY();
+
+        if(deltaY < 0)
+            deltaY = -deltaY;
+
+        if(deltaX >= deltaY) //vejo se a distância entre os dois pontos é maior no eixo X ou no eixo Y
+        {
+            this.altura = deltaX;                               //sendo no eixo x:
+                                                                //-usarei por parametro de distancia o deltaX;
+            this.largura = this.altura;                         //-farei ambos os lados do quadrado igauis;
+        }
+        else //senão, uso o deltaY como parametro para o tamanho do quadrado
+        {
+            this.altura = deltaY;
+
+            this.largura = this.altura;  
+        }
     }
 
     public String toString()
@@ -75,6 +99,8 @@ public class Circulo extends Figura
                ":" +
                this.getCor().getBlue();
     }
+
+    //métodos obrigatorios
     @Override
     public Object clone()
     {
