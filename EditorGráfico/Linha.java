@@ -59,7 +59,7 @@ public class Linha extends Figura
         return this.p2;
     }
 
-    public void torneSeVisivel (Graphics g)
+    public void torneSeVisivel (Graphics g,Color c)
     {
         g.setColor(this.cor);
         g.drawLine(this.p1.getX(), this.p1.getY(),   // ponto inicial

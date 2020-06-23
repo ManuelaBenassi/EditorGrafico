@@ -47,13 +47,17 @@ public class Elipse extends Figura
         return this.p3;
     }
 
-    public void torneSeVisivel(Graphics g)
+    public void torneSeVisivel(Graphics g,Color c)
     {
         g.setColor(this.cor);
         calculaTamanho();// caclcula as dimensoes do retangulo
         g.drawOval(this.p1.getX(), this.p1.getY(), //ponto inicial clicado
                    largura, //largura do retangulo
                    altura); //altura do retangulo
+        g.setColor(c);//define a cor para pintar o fundo
+        g.fillOval(this.p1.getX(), this.p1.getY(), //ponto inicial clicado
+                              largura, //largura do retangulo
+                              altura);//altura do retangulo
     }
 
     private void calculaTamanho(){

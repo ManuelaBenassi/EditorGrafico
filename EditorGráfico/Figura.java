@@ -28,6 +28,6 @@ public abstract class Figura
   //public abstract int     hashCode       ();
   //public abstract Object  clone          ();
     public abstract String  toString       ();
-    public abstract void    torneSeVisivel (Graphics g);
+    public abstract void    torneSeVisivel (Graphics g,Color c);
     
 }

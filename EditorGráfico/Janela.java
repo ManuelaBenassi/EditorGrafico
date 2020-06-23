@@ -20,6 +20,7 @@ public class Janela extends JFrame
                       btnSalvar    = new JButton ("Salvar");
                       
     protected MeuJPanel pnlDesenho = new MeuJPanel ();
+
     
     protected JLabel statusBar1 = new JLabel ("Mensagem:"),
                      statusBar2 = new JLabel ("Coordenada:");
@@ -29,14 +30,18 @@ public class Janela extends JFrame
                       esperaInicioElipse, esperaMeioElipse, esperaFimElipse;
 
     protected Color corFora = Color.BLACK;
-    protected Color corDentro = Color.LIGHT_GRAY;
+   
+
+    protected Color corDentro = Color.WHITE;
     protected Ponto p1, p2;
     
     protected Vector<Figura> figuras = new Vector<Figura>();
 
     public Janela ()
     {
+        
         super("Editor Grafico");
+        this.getContentPane().setBackground(Color.WHITE);
 
         try
         {
@@ -198,7 +203,7 @@ public class Janela extends JFrame
         public void paint (Graphics g)
         {
             for (int i=0 ; i<figuras.size(); i++)
-                figuras.get(i).torneSeVisivel(g);
+                figuras.get(i).torneSeVisivel(g,corDentro);
         }
         
         public void mousePressed (MouseEvent e)
@@ -206,7 +211,7 @@ public class Janela extends JFrame
             if (esperaPonto)
             {
                 figuras.add (new Ponto (e.getX(), e.getY(), corFora));
-                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
                 esperaPonto = false;
             }
             else
@@ -223,7 +228,7 @@ public class Janela extends JFrame
                         esperaInicioReta = false;
                         esperaFimReta = false;
                         figuras.add (new Linha(p1.getX(), p1.getY(), e.getX(), e.getY(), corFora));
-                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
                         statusBar1.setText("Mensagem:");    
                     }
                 else
@@ -240,7 +245,7 @@ public class Janela extends JFrame
                             esperaFimCirculo = false;
                             esperaInicioCirculo = false;
                             figuras.add(new Circulo(p1.getX(), p1.getY(), e.getX(), e.getY(), corFora));
-                            figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics());
+                            figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
                             statusBar1.setText("Mensagem:");
                         }
                         else
@@ -271,7 +276,7 @@ public class Janela extends JFrame
                                                              p2.getX(), p2.getY(), //altura
                                                              e.getX(), e.getY(), //largura
                                                              corFora)); 
-                                        figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics());
+                                        figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
                                         statusBar1.setText("Mensagem:");
                                     }
         }
