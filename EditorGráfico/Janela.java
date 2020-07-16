@@ -14,6 +14,8 @@ public class Janela extends JFrame
                       btnLinha     = new JButton ("Linha"),
                       btnCirculo   = new JButton ("Circulo"),
                       btnElipse    = new JButton ("Elipse"),
+                      btnQuadrado  = new JButton ("Quadrado"),
+                      btnRetangulo = new JButton ("Retangulo"),
                       btnCorFora   = new JButton ("Fora"),
                       btnCorDentro = new JButton ("Dentro"),
                       btnAbrir     = new JButton ("Abrir"),
@@ -27,7 +29,9 @@ public class Janela extends JFrame
 
     protected boolean esperaPonto, esperaInicioReta, esperaFimReta, 
                       esperaInicioCirculo, esperaFimCirculo,
-                      esperaInicioElipse, esperaMeioElipse, esperaFimElipse;
+                      esperaInicioElipse, esperaMeioElipse, esperaFimElipse,
+                      esperaInicioQuadrado,esperaFimQuadrado,
+                      esperaInicioRetangulo,esperaMeioRetangulo,esperaFimRetangulo;
 
     protected Color corFora = Color.BLACK;
    
@@ -151,6 +155,8 @@ public class Janela extends JFrame
         btnLinha.addActionListener (new DesenhoDeReta ());
         btnCirculo.addActionListener(new DesenhoDeCirculo());
         btnElipse.addActionListener(new DesenhoDeElipse());
+        btnQuadrado.addActionListener(new DesenhoDeQuadrado());
+        btnRetangulo.addActionListener(new DesenhoDeRetangulo());
         btnCorFora.addActionListener(new CorFora());
         btnCorDentro.addActionListener(new CorDentro());
 
@@ -164,6 +170,8 @@ public class Janela extends JFrame
         pnlBotoes.add (btnLinha);
         pnlBotoes.add (btnCirculo);
         pnlBotoes.add (btnElipse);
+        pnlBotoes.add (btnQuadrado);
+        pnlBotoes.add (btnRetangulo);
         pnlBotoes.add (btnCorFora);
         pnlBotoes.add (btnCorDentro);
 
@@ -279,6 +287,21 @@ public class Janela extends JFrame
                                         figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
                                         statusBar1.setText("Mensagem:");
                                     }
+                                    else
+                                        if(esperaInicioQuadrado){
+                                            p1 = new Ponto (e.getX(), e.getY(), corFora);
+                                            esperaInicioQuadrado = false;
+                                            esperaFimQuadrado = true;
+                                            statusBar1.setText("Mensagem: estabeleça o Lado do Quadrado"); 
+                                        }
+                                         else
+                                                if(esperaFimQuadrado){
+                                                    esperaFimQuadrado = false;
+                                                    esperaInicioQuadrado = false;
+                                                     figuras.add(new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corFora));
+                                                    figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
+                                                  statusBar1.setText("Mensagem:");
+                                             }
         }
         
         public void mouseReleased (MouseEvent e)
@@ -357,6 +380,34 @@ public class Janela extends JFrame
             esperaFimElipse = false;
 
             statusBar1.setText("Mensagem: clique no inicio da elipse");
+        }
+    }
+    protected class DesenhoDeQuadrado implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)
+        {
+            esperaPonto = false;
+            esperaInicioReta = false;
+            esperaFimReta = false;
+            esperaInicioQuadrado = true;
+            esperaFimQuadrado = false;
+
+            statusBar1.setText("Mensagem: clique no inicio do quadrado");
+        }
+    }
+    protected class DesenhoDeRetangulo implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            esperaPonto = false;
+            esperaInicioReta = false;
+            esperaFimReta = false;
+            esperaInicioCirculo = false;
+            esperaFimCirculo = false;
+            esperaInicioElipse = true;
+            esperaFimElipse = false;
+
+            statusBar1.setText("Mensagem: clique no inicio da retangulo");
         }
     }
     protected class CorFora implements ActionListener{
