@@ -302,6 +302,37 @@ public class Janela extends JFrame
                                                     figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
                                                   statusBar1.setText("Mensagem:");
                                              }
+                                             else
+                                                if(esperaInicioRetangulo)
+                                                    {
+                                                       p1 = new Ponto (e.getX(), e.getY(), corFora);
+                                                       esperaInicioRetangulo = false;
+                                                       esperaMeioRetangulo = true;
+                                                       esperaFimRetangulo = false;
+                                                        statusBar1.setText("Mensagem: estabeleça um lados do retângulo"); 
+                                                    }
+                                                    else
+                                                     if(esperaMeioRetangulo)
+                                                     {
+                                                          p2 = new Ponto (e.getX(), e.getY(), corFora);
+                                                         esperaInicioRetangulo = false;
+                                                          esperaMeioRetangulo = false;
+                                                         esperaFimRetangulo = true;
+                                                         statusBar1.setText("Mensagem: estabeleça o outro lado do retângulo");
+                                                        }
+                                                     else
+                                                         if(esperaFimRetangulo)
+                                                         {
+                                                             esperaFimRetangulo = false;
+                                                                esperaMeioRetangulo = false;
+                                                             esperaInicioRetangulo = false;
+                                                                figuras.add(new Retangulo(p1.getX(), p1.getY(), //primeiro ponto
+                                                                                    p2.getX(), p2.getY(), //altura
+                                                                                    e.getX(), e.getY(), //largura
+                                                                                    corFora)); 
+                                                                figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
+                                                                statusBar1.setText("Mensagem:");
+                                                         }
         }
         
         public void mouseReleased (MouseEvent e)
@@ -402,10 +433,10 @@ public class Janela extends JFrame
             esperaPonto = false;
             esperaInicioReta = false;
             esperaFimReta = false;
-            esperaInicioCirculo = false;
-            esperaFimCirculo = false;
-            esperaInicioElipse = true;
-            esperaFimElipse = false;
+            esperaInicioQuadrado = false;
+            esperaFimQuadrado = false;
+            esperaInicioRetangulo = true;
+            esperaFimRetangulo = false;
 
             statusBar1.setText("Mensagem: clique no inicio da retangulo");
         }

@@ -11,7 +11,7 @@ public class Quadrado extends Figura{
         this.p2 = new Ponto(x2, y2);
 
     }
-    ]public void setP1(int x, int y)
+    public void setP1(int x, int y)
     {
         this.p1.setX(x);
         this.p1.setY(y);
@@ -36,10 +36,9 @@ public class Quadrado extends Figura{
     {
         g.setColor(super.cor);
         calculaTamanho();// caclcula as dimensoes do quadrado
-        super.paintComponent(g);
+        g.drawRect(this.p1.getX(), this.p1.getY(), largura, altura);
         g.setColor(c);
-        g.drawRect(p1, p2, largura, altura);
-        g.setColor(c);
+        g.fillRect(this.p1.getX(), this.p1.getY(), largura, altura);
     }
     private void calculaTamanho()
     { int deltaX, deltaY;
