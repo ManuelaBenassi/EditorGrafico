@@ -72,16 +72,7 @@ public class Cliente
             return;
         }
 
-        TratadoraDeComunicadoDeDesligamento tratadoraDeComunicadoDeDesligamento = null;
-        try
-        {
-			tratadoraDeComunicadoDeDesligamento = new TratadoraDeComunicadoDeDesligamento (servidor);
-		}
-		catch (Exception erro)
-		{} // sei que servidor foi instanciado
-		
-        tratadoraDeComunicadoDeDesligamento.start();
-
+        
         char opcao=' ';
         do
         {
