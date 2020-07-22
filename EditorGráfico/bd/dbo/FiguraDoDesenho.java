@@ -1,9 +1,9 @@
 package bd.dbo;
-public class Cliente{
+public class FiguraDoDesenho{
     private String email,nome,estado,cidade,bairro,rua,complemento;
     private int numero;
 
-    public Cliente(String email, String nome, String estado, String cidade, String bairro, String rua, String complemento, int numero) throws Exception {
+    public FiguraDoDesenho(String email, String nome, String estado, String cidade, String bairro, String rua, String complemento, int numero) throws Exception {
         this.setEmail(email);
         this.setNome(nome);
         this.setEstado(estado);
@@ -14,7 +14,7 @@ public class Cliente{
         this.setNumero(numero);
     }
 
-    public Cliente(Cliente modelo) throws Exception {
+    public FiguraDoDesenho(FiguraDoDesenho modelo) throws Exception {
         if(modelo == null)
                 throw new Exception("modelo não pode ser nulo");
         this.email = modelo.email;
@@ -109,7 +109,7 @@ public class Cliente{
 
     @Override
     public String toString() {
-        return "Cliente{" +
+        return "FiguraDoDesenho{" +
                 "email='" + email + '\'' +
                 ", nome='" + nome + '\'' +
                 ", estado='" + estado + '\'' +
@@ -127,7 +127,7 @@ public class Cliente{
             return true;
         if(obj.getClass() != this.getClass())
             return false;
-        Cliente cli = (Cliente) obj;
+        FiguraDoDesenho cli = (FiguraDoDesenho) obj;
         if(!cli.bairro.equals(this.bairro) || !cli.cidade.equals(this.cidade)|| !cli.rua.equals(this.rua)
                 || cli.numero != this.numero || !cli.email.equals(this.email) || !cli.complemento.equals(complemento)
                 || !cli.estado.equals(this.estado) || !!cli.nome.equals(nome) )
@@ -150,9 +150,9 @@ public class Cliente{
         return ret;
     }
     public Object clone(){
-        Cliente clone = null;
+        FiguraDoDesenho clone = null;
         try{
-            clone = new Cliente(this);
+            clone = new FiguraDoDesenho(this);
         }
         catch (Exception e)
         {}

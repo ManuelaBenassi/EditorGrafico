@@ -1,14 +1,14 @@
 package bd.dao;
 import bd.BDSQLServer;
 import bd.core.MeuResultSet;
-import bd.dbo.FiguraDosDesenhos;
+import bd.dbo.FiguraDoDesenho;
 
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiguraDosDesenhoss {
+public class FigurasDosDesenhos {
     public static boolean cadastrado(String email) throws Exception {
         boolean retorno = false;
         String sql;
@@ -31,10 +31,10 @@ public class FiguraDosDesenhoss {
         }
         return retorno;
     }
-    public static void incluir(FiguraDosDesenhos cliente) throws Exception {
+    public static void incluir(FiguraDoDesenho cliente) throws Exception {
         if (cliente == null)
             throw new Exception("cliente não pode ser nulo");
-        if(FiguraDosDesenhos.cadastrado(cliente.getEmail()))
+        if(FigurasDosDesenhos.cadastrado(cliente.getEmail()))
             throw new Exception("Esse cliente já foi cadastrado.");
         try
         {
@@ -59,7 +59,7 @@ public class FiguraDosDesenhoss {
         }
     }
     public static void excluir(String email) throws Exception {
-        if(!FiguraDosDesenhos.cadastrado(email))
+        if(!FigurasDosDesenhos.cadastrado(email))
             throw new Exception("Esse cliente não foi cadastrado, portanto é impossivel excluir ele.");
         try
         {
@@ -82,7 +82,7 @@ public class FiguraDosDesenhoss {
         }
 
     }
-    public static void alterar (FiguraDosDesenho cliente) throws Exception
+    public static void alterar (FiguraDoDesenho cliente) throws Exception
     {
         if (cliente==null)
             throw new Exception ("FiguraDosDesenho nao fornecido");
@@ -127,10 +127,10 @@ public class FiguraDosDesenhoss {
             throw new Exception ("Erro ao atualizar dados de cliente");
         }
     }
-    public static List<FiguraDosDesenho> selecionarFiguraDosDesenhos() throws Exception
+    public static List<FiguraDoDesenho> selecionarFiguraDoDesenho() throws Exception
     {
-        List<FiguraDosDesenho> ret = new ArrayList<FiguraDosDesenho>();
-        FiguraDosDesenho cliente;
+        List<FiguraDoDesenho> ret = new ArrayList<FiguraDoDesenho>();
+        FiguraDoDesenho cliente;
 
         try
         {
@@ -140,7 +140,7 @@ public class FiguraDosDesenhoss {
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
             while(resultado.next())
             {
-                cliente = new FiguraDosDesenhos(resultado.getString("email"), resultado.getString("nome"),
+                cliente = new FiguraDoDesenho(resultado.getString("email"), resultado.getString("nome"),
                         resultado.getString("estado"), resultado.getString("cidade"),
                         resultado.getString("bairro"),resultado.getString("rua"),
                         resultado.getString("complemento"),resultado.getInt("numero"));
@@ -155,9 +155,9 @@ public class FiguraDosDesenhoss {
 
         return ret;
     }
-    public static FiguraDosDesenhos getFiguraDosDesenhos(String email) throws Exception
+    public static FiguraDoDesenho getFiguraDoDesenho(String email) throws Exception
     {
-        FiguraDosDesenho cliente = null;
+        FiguraDoDesenho cliente = null;
         try
         {
             String sql = "SELECT * FROM CLIENTE WHERE email = ?";
@@ -168,7 +168,7 @@ public class FiguraDosDesenhoss {
             if(!resultado.first())
                 throw new Exception("Nao cadastrado");
 
-            cliente = new FiguraDosDesenhos(resultado.getString("email"), resultado.getString("nome"), resultado.getString("estado"),
+            cliente = new FiguraDoDesenho(resultado.getString("email"), resultado.getString("nome"), resultado.getString("estado"),
                     resultado.getString("cidade"),resultado.getString("bairro"),resultado.getString("rua"),resultado.getString("complemento"), resultado.getInt("numero"));
         }
         catch(Exception ex)

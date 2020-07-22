@@ -1,11 +1,25 @@
+/*CREATE TABLE Desenhos (
+
+Id BIGINT IDENTITY(1,1) PRIMARY KEY,
+
+eMailDoDono VARCHAR(100) NOT NULL,
+
+Nome VARCHAR(100) NOT NULL,
+
+UNIQUE(eMailDoDono,Nome))
+*/
 package bd.dbo;
+
+import java.math.BigInteger;
+
 public class Desenho{
     private String emailDoDono,nome;
-    private int numero;
+    private BigInteger id;
 
-    public Desenho(String emailDoDono, String nome) throws Exception {
+    public Desenho(String emailDoDono, String nome, BigInteger id) throws Exception {
         this.setEmailDoDono(emailDoDono);
         this.setNome(nome);
+        this.setId(id);
     }
 
     public Desenho(Desenho modelo) throws Exception {
@@ -13,30 +27,38 @@ public class Desenho{
                 throw new Exception("modelo não pode ser nulo");
         this.emailDoDono = modelo.emailDoDono;
         this.nome = modelo.nome;
+        this.id = modelo.id;
 
     }
 
-    public void setEmail(String emailDoDono) throws Exception {
-        if(emailDoDono.length() > 50)
-            throw new Exception("o comprimento deve ser menor que 50 caracteres");
+    public void setEmailDoDono(String emailDoDono) throws Exception {
+        if(emailDoDono.length() > 100)
+            throw new Exception("o comprimento deve ser menor que 100 caracteres");
         this.emailDoDono = emailDoDono;
     }
 
     public void setNome(String nome) throws Exception {
-        if(nome.length() > 50)
-            throw new Exception("o comprimento deve ser menor que 50 caracteres");
+        if(nome.length() > 100)
+            throw new Exception("o comprimento deve ser menor que 100 caracteres");
         this.nome = nome;
+    }
+    public void setId(BigInteger id) throws Exception{
+        if(id.signum() == 1)
+            throw new Exception("Id deve ser maior que 0");
+        this.id = id;
     }
 
 
-    public String getEmail() {
+    public String getEmailDoDono() {
         return emailDoDono;
     }
 
     public String getNome() {
         return nome;
     }
-
+    public BigInteger getId(){
+        return id;
+    }
    
 
     @Override
@@ -44,6 +66,7 @@ public class Desenho{
         return "Desenho{" +
                 "emailDoDono='" + emailDoDono + '\'' +
                 ", nome='" + nome + '\'' +
+                ", id = '" + id +
                 '}';
     }
     public boolean equals(Object obj){
@@ -54,7 +77,7 @@ public class Desenho{
         if(obj.getClass() != this.getClass())
             return false;
         Desenho des = (Desenho) obj;
-        if( !des.emailDoDono.equals(this.emailDoDono) || !!des.nome.equals(nome) )
+        if( !des.emailDoDono.equals(this.emailDoDono) || !!des.nome.equals(this.nome) || !des.id.equals(this.id))
             return false;
         return true;
     }
@@ -63,6 +86,7 @@ public class Desenho{
         int ret = 666;
         ret = ret * 5 + this.emailDoDono.hashCode();
         ret = ret * 5 + this.nome.hashCode();
+        //ret = ret + new BigInteger(this.id).hashCode();
         if(ret<0)
             ret = -ret;
 

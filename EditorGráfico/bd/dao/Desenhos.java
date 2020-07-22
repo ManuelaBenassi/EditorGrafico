@@ -1,3 +1,13 @@
+/*CREATE TABLE Desenhos (
+
+Id BIGINT IDENTITY(1,1) PRIMARY KEY,
+
+eMailDoDono VARCHAR(100) NOT NULL,
+
+Nome VARCHAR(100) NOT NULL,
+
+UNIQUE(eMailDoDono,Nome))
+*/
 package bd.dao;
 import bd.BDSQLServer;
 import bd.core.MeuResultSet;
@@ -34,21 +44,16 @@ public class Desenhos {
     public static void incluir(Desenho desenho) throws Exception {
         if (desenho == null)
             throw new Exception("desenho não pode ser nulo");
-        if(Desenhos.cadastrado(desenho.getEmail()))
+        if(Desenhos.cadastrado(desenho.getEmailDoDono()))
             throw new Exception("Esse desenho já foi cadastrado.");
         try
         {
             String sql;
-            sql = "insert into Desenho values(?, ?, ?, ?, ?,?,?,?)";
+            sql = "insert into Desenho values(?, ?, ?)";
             BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setString(1, desenho.getEmail());
+            BDSQLServer.COMANDO.setString(1, desenho.getEmailDoDono());
             BDSQLServer.COMANDO.setString(2, desenho.getNome());
-            BDSQLServer.COMANDO.setString(3, desenho.getEstado());
-            BDSQLServer.COMANDO.setString(4, desenho.getCidade());
-            BDSQLServer.COMANDO.setString(5, desenho.getBairro());
-            BDSQLServer.COMANDO.setString(6, desenho.getRua());
-            BDSQLServer.COMANDO.setInt	 (7, desenho.getNumero());
-            BDSQLServer.COMANDO.setString(8, desenho.getComplemento());
+            BDSQLServer.COMANDO.SetInt(3,desenho.getId());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit();
@@ -87,7 +92,7 @@ public class Desenhos {
         if (desenho==null)
             throw new Exception ("Desenho nao fornecido");
 
-        if (!cadastrado (desenho.getEmail()))
+        if (!cadastrado (desenho.getEmailDoDono()))
             throw new Exception ("Nao cadastrado");
 
         try
@@ -96,25 +101,14 @@ public class Desenhos {
 
             sql = "UPDATE CLIENTE " +
                     "SET NOME=?, " +
-                    "ESTADO=?, " +
-                    "CIDADE=?, " +
-                    "BAIRRO=?, " +
-                    "RUA=?, " +
-                    "NUMERO=?, " +
-                    "COMPLEMENTO=? " +
-                    "WHERE EMAIL =?";
+                    "EMAIL=?, " +
+                    "WHERE ID =?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
 
             BDSQLServer.COMANDO.setString(1, desenho.getNome ());
-            BDSQLServer.COMANDO.setString(2, desenho.getEstado());
-            BDSQLServer.COMANDO.setString(3, desenho.getCidade());
-            BDSQLServer.COMANDO.setString(4, desenho.getBairro());
-            BDSQLServer.COMANDO.setString(5, desenho.getRua());
-            BDSQLServer.COMANDO.setInt(6, desenho.getNumero());
-            BDSQLServer.COMANDO.setString(7, desenho.getComplemento());
-            BDSQLServer.COMANDO.setString(8, desenho.getEmail ());
+            BDSQLServer.COMANDO.setString(2, desenho.getEmailDoDono ());
 
 
             BDSQLServer.COMANDO.executeUpdate ();
@@ -140,10 +134,7 @@ public class Desenhos {
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
             while(resultado.next())
             {
-                desenho = new Desenho(resultado.getString("email"), resultado.getString("nome"),
-                        resultado.getString("estado"), resultado.getString("cidade"),
-                        resultado.getString("bairro"),resultado.getString("rua"),
-                        resultado.getString("complemento"),resultado.getInt("numero"));
+                desenho = new Desenho(resultado.getString("email"), resultado.getString("nome"),resultado.getBigInt("Id"));
 
                 ret.add(desenho);
             }
