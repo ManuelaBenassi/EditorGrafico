@@ -53,7 +53,7 @@ public class Desenhos {
             BDSQLServer.COMANDO.prepareStatement(sql);
             BDSQLServer.COMANDO.setString(1, desenho.getEmailDoDono());
             BDSQLServer.COMANDO.setString(2, desenho.getNome());
-            BDSQLServer.COMANDO.SetInt(3,desenho.getId());
+            BDSQLServer.COMANDO.setLong(3,desenho.getId());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit();
@@ -70,8 +70,8 @@ public class Desenhos {
         {
             String sql;
 
-            sql = "DELETE FROM CLIENTE " +
-                    "WHERE EMAIL=?";
+            sql = "DELETE FROM DESENHOS " +
+                    "WHERE EMAILDODONO=?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
@@ -99,9 +99,9 @@ public class Desenhos {
         {
             String sql;
 
-            sql = "UPDATE CLIENTE " +
+            sql = "UPDATE DESENHOS " +
                     "SET NOME=?, " +
-                    "EMAIL=?, " +
+                    "EMAILDODONO =?, " +
                     "WHERE ID =?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
@@ -128,13 +128,13 @@ public class Desenhos {
 
         try
         {
-            String sql = "SELECT * FROM CLIENTE";
+            String sql = "SELECT * FROM DESENHOS";
             BDSQLServer.COMANDO.prepareStatement(sql);
 
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
             while(resultado.next())
             {
-                desenho = new Desenho(resultado.getString("email"), resultado.getString("nome"),resultado.getBigInt("Id"));
+                desenho = new Desenho(resultado.getString("email"), resultado.getString("nome"),resultado.getLong("Id"));
 
                 ret.add(desenho);
             }
@@ -151,7 +151,7 @@ public class Desenhos {
         Desenho desenho = null;
         try
         {
-            String sql = "SELECT * FROM CLIENTE WHERE email = ?";
+            String sql = "SELECT * FROM DESENHOS WHERE EMAILDODONO = ?";
             BDSQLServer.COMANDO.prepareStatement(sql);
             BDSQLServer.COMANDO.setString(1, email);
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
@@ -159,7 +159,7 @@ public class Desenhos {
             if(!resultado.first())
                 throw new Exception("Nao cadastrado");
 
-            desenho = new Desenho(resultado.getString("email"), resultado.getString("nome"));
+            desenho = new Desenho(resultado.getString("email"), resultado.getString("nome"), resultado.getLong("id"));
         }
         catch(Exception ex)
         {

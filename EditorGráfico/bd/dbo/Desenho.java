@@ -10,13 +10,12 @@ UNIQUE(eMailDoDono,Nome))
 */
 package bd.dbo;
 
-import java.math.BigInteger;
 
 public class Desenho{
     private String emailDoDono,nome;
-    private BigInteger id;
+    private Long id;
 
-    public Desenho(String emailDoDono, String nome, BigInteger id) throws Exception {
+    public Desenho(String emailDoDono, String nome,Long id) throws Exception {
         this.setEmailDoDono(emailDoDono);
         this.setNome(nome);
         this.setId(id);
@@ -42,8 +41,8 @@ public class Desenho{
             throw new Exception("o comprimento deve ser menor que 100 caracteres");
         this.nome = nome;
     }
-    public void setId(BigInteger id) throws Exception{
-        if(id.signum() == 1)
+    public void setId(Long id) throws Exception{
+        if(id < 1)
             throw new Exception("Id deve ser maior que 0");
         this.id = id;
     }
@@ -56,7 +55,7 @@ public class Desenho{
     public String getNome() {
         return nome;
     }
-    public BigInteger getId(){
+    public Long getId(){
         return id;
     }
    
@@ -77,7 +76,7 @@ public class Desenho{
         if(obj.getClass() != this.getClass())
             return false;
         Desenho des = (Desenho) obj;
-        if( !des.emailDoDono.equals(this.emailDoDono) || !!des.nome.equals(this.nome) || !des.id.equals(this.id))
+        if( !des.emailDoDono.equals(this.emailDoDono) || !!des.nome.equals(this.nome) || !(des.id == this.id))
             return false;
         return true;
     }
@@ -86,7 +85,7 @@ public class Desenho{
         int ret = 666;
         ret = ret * 5 + this.emailDoDono.hashCode();
         ret = ret * 5 + this.nome.hashCode();
-        //ret = ret + new BigInteger(this.id).hashCode();
+        //ret = ret + newLong(this.id).hashCode();
         if(ret<0)
             ret = -ret;
 
