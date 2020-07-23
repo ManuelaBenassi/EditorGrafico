@@ -1,13 +1,4 @@
-/*CREATE TABLE Desenhos (
 
-Id BIGINT IDENTITY(1,1) PRIMARY KEY,
-
-eMailDoDono VARCHAR(100) NOT NULL,
-
-Nome VARCHAR(100) NOT NULL,
-
-UNIQUE(eMailDoDono,Nome))
-*/
 package bd.dbo;
 
 
@@ -85,7 +76,7 @@ public class Desenho{
         int ret = 666;
         ret = ret * 5 + this.emailDoDono.hashCode();
         ret = ret * 5 + this.nome.hashCode();
-        //ret = ret + newLong(this.id).hashCode();
+        ret = ret + new Long(this.id).hashCode();
         if(ret<0)
             ret = -ret;
 

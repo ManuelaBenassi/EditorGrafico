@@ -49,11 +49,12 @@ public class Desenhos {
         try
         {
             String sql;
-            sql = "insert into Desenho values(?, ?, ?)";
+            sql = "insert into Desenhos values(?, ?, ?)";
             BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setString(1, desenho.getEmailDoDono());
-            BDSQLServer.COMANDO.setString(2, desenho.getNome());
-            BDSQLServer.COMANDO.setLong(3,desenho.getId());
+            BDSQLServer.COMANDO.setLong(1,desenho.getId());
+            BDSQLServer.COMANDO.setString(2, desenho.getEmailDoDono());
+            BDSQLServer.COMANDO.setString(3, desenho.getNome());
+            
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit();

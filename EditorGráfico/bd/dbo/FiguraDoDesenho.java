@@ -1,123 +1,61 @@
+
 package bd.dbo;
 public class FiguraDoDesenho{
-    private String email,nome,estado,cidade,bairro,rua,complemento;
-    private int numero;
+    private String figura;
+    private Long idDoDesenho;
+    private int id;
 
-    public FiguraDoDesenho(String email, String nome, String estado, String cidade, String bairro, String rua, String complemento, int numero) throws Exception {
-        this.setEmail(email);
-        this.setNome(nome);
-        this.setEstado(estado);
-        this.setCidade(cidade);
-        this.setBairro(bairro);
-        this.setRua(rua);
-        this.setComplemento(complemento);
-        this.setNumero(numero);
+    public FiguraDoDesenho(int id, String figura,Long idDoDesenho) throws Exception {
+        this.setId(id);
+        this.setFigura(figura);
+        this.setIdDoDesenho(idDoDesenho);
     }
 
     public FiguraDoDesenho(FiguraDoDesenho modelo) throws Exception {
         if(modelo == null)
                 throw new Exception("modelo não pode ser nulo");
-        this.email = modelo.email;
-        this.nome = modelo.nome;
-        this.estado = modelo.estado;
-        this.cidade = modelo.cidade;
-        this.bairro = modelo.bairro;
-        this.rua = modelo.rua;
-        this.numero = modelo.numero;
-        this.complemento = modelo.complemento;
+        this.id = modelo.id;
+        this.figura = modelo.figura;
+        this.idDoDesenho = modelo.idDoDesenho;
+
     }
 
-    public void setEmail(String email) throws Exception {
-        if(email.length() > 50)
+    public void setId(int id) throws Exception {
+        if(id<1)
+            throw new Exception("id deve ser maior que 0");
+        this.id = id;
+    }
+
+    public void setFigura(String figura) throws Exception {
+        if(figura.length() > 100)
             throw new Exception("o comprimento deve ser menor que 50 caracteres");
-        this.email = email;
+        this.figura = figura;
+    }
+    public void setIdDoDesenho(Long idDoDesenho) throws Exception{
+        if(idDoDesenho < 1)
+            throw new Exception("IdDoDesenho deve ser maior que 1");
+        this.idDoDesenho = idDoDesenho;
     }
 
-    public void setNome(String nome) throws Exception {
-        if(nome.length() > 50)
-            throw new Exception("o comprimento deve ser menor que 50 caracteres");
-        this.nome = nome;
+
+    public int getId() {
+        return id;
     }
 
-    public void setEstado(String estado) throws Exception {
-        if(estado.length() > 50)
-            throw new Exception("o comprimento deve ser menor que 50 caracteres");
-        this.estado = estado;
+    public String getFigura() {
+        return figura;
     }
-
-    public void setCidade(String cidade) throws Exception {
-        if(cidade.length() > 50)
-            throw new Exception("o comprimento deve ser menor que 50 caracteres");
-        this.cidade = cidade;
+    public Long getIdDoDesenho(){
+        return idDoDesenho;
     }
-
-    public void setBairro(String bairro) throws Exception {
-        if(bairro.length() > 50)
-            throw new Exception("o comprimento deve ser menor que 50 caracteres");
-        this.bairro = bairro;
-    }
-
-    public void setRua(String rua) throws Exception {
-        if(rua.length() > 50)
-            throw new Exception("o comprimento deve ser menor que 50 caracteres");
-        this.rua = rua;
-    }
-
-    public void setComplemento(String complemento) throws Exception {
-        if(complemento.length() > 50)
-            throw new Exception("o comprimento deve ser menor que 50 caracteres");
-        this.complemento = complemento;
-    }
-
-    public void setNumero(int numero) throws Exception {
-        if(numero < 0)
-            throw new Exception("o numero deve ser positivo");
-        this.numero = numero;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public String getRua() {
-        return rua;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public int getNumero() {
-        return numero;
-    }
+   
 
     @Override
     public String toString() {
         return "FiguraDoDesenho{" +
-                "email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", estado='" + estado + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", bairro='" + bairro + '\'' +
-                ", rua='" + rua + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", numero=" + numero +
+                "id do desenho='" + idDoDesenho + '\'' +
+                ", figura='" + figura + '\'' +
+                ", id = '" + id +
                 '}';
     }
     public boolean equals(Object obj){
@@ -127,23 +65,17 @@ public class FiguraDoDesenho{
             return true;
         if(obj.getClass() != this.getClass())
             return false;
-        FiguraDoDesenho cli = (FiguraDoDesenho) obj;
-        if(!cli.bairro.equals(this.bairro) || !cli.cidade.equals(this.cidade)|| !cli.rua.equals(this.rua)
-                || cli.numero != this.numero || !cli.email.equals(this.email) || !cli.complemento.equals(complemento)
-                || !cli.estado.equals(this.estado) || !!cli.nome.equals(nome) )
+        FiguraDoDesenho fdd = (FiguraDoDesenho) obj;
+        if( !(fdd.id == this.id) || !!fdd.figura.equals(this.figura) || !(fdd.idDoDesenho == this.idDoDesenho))
             return false;
         return true;
     }
     public int haschCode()
     {
         int ret = 666;
-        ret = ret * 5 + this.email.hashCode();
-        ret = ret * 5 + this.nome.hashCode();
-        ret = ret * 5 + this.estado.hashCode();
-        ret = ret * 5 + this.cidade.hashCode();
-        ret = ret * 5 + this.bairro.hashCode();
-        ret = ret * 5 + this.rua.hashCode();
-        ret = ret* 5 + new Integer(this.numero).hashCode();
+        ret = ret + new Integer(this.id).hashCode();
+        ret = ret * 5 + this.figura.hashCode();
+        ret = ret + new Long(this.idDoDesenho).hashCode();
         if(ret<0)
             ret = -ret;
 
