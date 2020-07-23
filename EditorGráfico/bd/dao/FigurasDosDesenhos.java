@@ -1,15 +1,7 @@
-/*CREATE TABLE FigurasDosDesenhos (
 
-IdDoDesenho BIGINT,
-
-Id INT,
-
-FIGURA VARCHAR(50) NOT NULL,
-*/
 package bd.dao;
 import bd.BDSQLServer;
 import bd.core.MeuResultSet;
-import bd.dbo.Desenho;
 import bd.dbo.FiguraDoDesenho;
 
 import javax.swing.*;
