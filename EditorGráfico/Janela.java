@@ -150,6 +150,30 @@ public class Janela extends JFrame
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
+        try
+        {
+            Image btnCorDentroImg = ImageIO.read(getClass().getResource("resources/quadrado.jpeg"));
+            btnCorDentro.setIcon(new ImageIcon(btnCorDentroImg));
+        }
+        catch (IOException e)
+        {
+            JOptionPane.showMessageDialog (null,
+                                           "Arquivo quadrado.jpeg nao foi encontrado",
+                                           "Arquivo de imagem ausente",
+                                           JOptionPane.WARNING_MESSAGE);
+        }
+        try
+        {
+            Image btnCorDentroImg = ImageIO.read(getClass().getResource("resources/retangulo.jpeg"));
+            btnCorDentro.setIcon(new ImageIcon(btnCorDentroImg));
+        }
+        catch (IOException e)
+        {
+            JOptionPane.showMessageDialog (null,
+                                           "Arquivo retangulo.jpeg nao foi encontrado",
+                                           "Arquivo de imagem ausente",
+                                           JOptionPane.WARNING_MESSAGE);
+        }
 
         btnPonto.addActionListener (new DesenhoDePonto());
         btnLinha.addActionListener (new DesenhoDeReta ());
