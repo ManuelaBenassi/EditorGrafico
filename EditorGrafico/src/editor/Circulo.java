@@ -144,7 +144,6 @@ public class Circulo extends Figura {
                 + this.getCor().getRed() + ":" + this.getCor().getGreen() + ":" + this.getCor().getBlue();
     }
 
-    // m�todos obrigatorios
     /**
      * Método que cria um clone dessa classe
      * 

@@ -2,107 +2,159 @@ package editor;
 
 import java.awt.*;
 
-public class Quadrado extends Figura{
+/**
+ * Essa clase faz o desenho da figura Quadrado
+ * 
+ * @version 1.1
+ * @author Guilherme Brentan e Manuela Benassi
+ * @since Primeira versão da aplicação
+ */
+
+public class Quadrado extends Figura {
     protected Ponto p1, p2;
     protected int altura, largura;
-    
-    public Quadrado(int x1, int x2, int y1, int y2, Color cor)
-    {
+
+    /**
+     * Construtor da classe Quadrado
+     * 
+     * @param x1  - posição 1 da reta x
+     * @param y1  - posição 1 da reta y
+     * @param x2  - posição 2 da reta x
+     * @param y2  - posição 2 da reta y
+     * @param cor - cor definida pra fora da figura
+     */
+
+    public Quadrado(int x1, int x2, int y1, int y2, Color cor) {
         super(cor);
 
         this.p1 = new Ponto(x1, y1);
         this.p2 = new Ponto(x2, y2);
 
     }
-    public void setP1(int x, int y)
-    {
+
+    /**
+     * Da o valor dos parâmetros para o ponto1
+     * 
+     * @param x posição na reta x
+     * @param y posição na reta y
+     */
+
+    public void setP1(int x, int y) {
         this.p1.setX(x);
         this.p1.setY(y);
     }
 
-    public void setP2(int x, int y)
-    {
+    /**
+     * Da o valor dos parâmetros para o ponto2
+     * 
+     * @param x posição na reta x
+     * @param y posição na reta y
+     */
+
+    public void setP2(int x, int y) {
         this.p1.setX(x);
         this.p1.setY(y);
     }
 
-    public Ponto getP1()
-    {
+    /**
+     * Retorna o ponto 1
+     * 
+     * @return Ponto - ponto1
+     */
+    public Ponto getP1() {
         return this.p1;
     }
 
-    public Ponto getP2()
-    {
+    /**
+     * Retorna o ponto 2
+     * 
+     * @return Ponto - ponto2
+     */
+    public Ponto getP2() {
         return this.p2;
     }
-    public void torneSeVisivel(Graphics g,Color c)
-    {
+
+    /**
+     * Método que desenha a circunferência
+     * 
+     * @param g graphics - objeto que desenha o quadrado
+     * @param c cor que vai dentro
+     */
+
+    public void torneSeVisivel(Graphics g, Color c) {
         g.setColor(super.cor);
         calculaTamanho();// caclcula as dimensoes do quadrado
         g.drawRect(this.p1.getX(), this.p1.getY(), largura, altura);
         g.setColor(c);
         g.fillRect(this.p1.getX(), this.p1.getY(), largura, altura);
     }
-    private void calculaTamanho()
-    { int deltaX, deltaY;
+
+    /**
+     * Método que calcula o tamanho que o quadrado terá
+     */
+
+    private void calculaTamanho() {
+        int deltaX, deltaY;
 
         deltaX = this.p1.getX() - this.p2.getX();
 
-        if(deltaX < 0)
+        if (deltaX < 0)
             deltaX = -deltaX;
 
         deltaY = this.p1.getY() - this.p2.getY();
 
-        if(deltaY < 0)
+        if (deltaY < 0)
             deltaY = -deltaY;
 
-        if(deltaX >= deltaY) //vejo se a dist�ncia entre os dois pontos � maior no eixo X ou no eixo Y
+        if (deltaX >= deltaY) // vejo se a dist�ncia entre os dois pontos � maior no eixo X ou no eixo Y
         {
-            this.altura = deltaX;                               //sendo no eixo x:
-                                                                //-usarei por parametro de distancia o deltaX;
-            this.largura = this.altura;                         //-farei ambos os lados do quadrado igauis;
-        }
-        else //sen�o, uso o deltaY como parametro para o tamanho do quadrado
+            this.altura = deltaX; // sendo no eixo x:
+                                  // -usarei por parametro de distancia o deltaX;
+            this.largura = this.altura; // -farei ambos os lados do quadrado igauis;
+        } else // sen�o, uso o deltaY como parametro para o tamanho do quadrado
         {
             this.altura = deltaY;
 
-            this.largura = this.altura;  
+            this.largura = this.altura;
         }
-    }
-    public String toString()
-    {
-        return "r:" +
-               this.p1.getX() +
-               ":" +
-               this.p1.getY() +
-               ":" +
-               this.p2.getX() +
-               ":" +
-               this.p2.getY() +
-               ":" +
-               this.getCor().getRed() +
-               ":" +
-               this.getCor().getGreen() +
-               ":" +
-               this.getCor().getBlue();
     }
 
-    //m�todos obrigatorios
+    /**
+     * Método que define a string da classe
+     * 
+     * @return String com todas as informações
+     */
+
+    public String toString() {
+        return "r:" + this.p1.getX() + ":" + this.p1.getY() + ":" + this.p2.getX() + ":" + this.p2.getY() + ":"
+                + this.getCor().getRed() + ":" + this.getCor().getGreen() + ":" + this.getCor().getBlue();
+    }
+
+    /**
+     * Método que cria um clone dessa classe
+     * 
+     * @return Quadrado- clone dessa classe
+     */
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         Quadrado clone = null;
-        try
-        {
+        try {
             clone = new Quadrado(this);
+        } catch (Exception e) {
         }
-        catch(Exception e)
-        {}      
         return clone;
     }
-    public Quadrado(Quadrado modelo) throws Exception{
-        if(modelo==null){
-            throw new Exception("n�o pode ser nulo");
+
+    /**
+     * Construtor de cópia- constroi uma cópia da classe passada no parametro
+     * 
+     * @param modelo classe a ser copiada
+     * @throws Exception quando a classe passada é vazia
+     */
+
+    public Quadrado(Quadrado modelo) throws Exception {
+        if (modelo == null) {
+            throw new Exception("n�o pode ser nulo");
         }
         this.p1 = modelo.p1;
         this.p2 = modelo.p2;
@@ -110,30 +162,41 @@ public class Quadrado extends Figura{
         this.largura = modelo.largura;
 
     }
+
+    /**
+     * Verifica se a classe passada como parametro é igual
+     * 
+     * @param obj classe a ser comparada
+     * @return se as classes são iguais ou não
+     */
     @Override
-    public boolean equals(Object obj)
-    {
-        if(obj == null)
+    public boolean equals(Object obj) {
+        if (obj == null)
             return false;
-        if(obj == this)
+        if (obj == this)
             return true;
-        if(obj.getClass() != this.getClass())
+        if (obj.getClass() != this.getClass())
             return false;
         Quadrado quadrado = (Quadrado) obj;
-        if(!this.p1.equals(quadrado.p1) || !this.p2.equals(quadrado.p2) ||
-        this.altura != quadrado.altura || this.largura != quadrado.largura)
+        if (!this.p1.equals(quadrado.p1) || !this.p2.equals(quadrado.p2) || this.altura != quadrado.altura
+                || this.largura != quadrado.largura)
             return false;
         return true;
     }
+
+    /**
+     * Retorna o haschcode da classe
+     * 
+     * @return haschcode
+     */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int ret = 111;
-        ret = ret *5 + this.p1.hashCode();
+        ret = ret * 5 + this.p1.hashCode();
         ret = ret * 5 + this.p2.hashCode();
         ret = ret * 5 + new Integer(this.altura).hashCode();
         ret = ret * 5 + new Integer(this.largura).hashCode();
-        if(ret<0)
+        if (ret < 0)
             ret = -ret;
 
         return ret;
