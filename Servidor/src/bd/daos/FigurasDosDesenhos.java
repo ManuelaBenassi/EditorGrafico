@@ -7,19 +7,20 @@ import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class FigurasDosDesenhos {
-    public static boolean cadastrado(int id) throws Exception {
+    public static boolean cadastrado(long id) throws Exception {
         boolean retorno = false;
         String sql;
         try {
             sql = "SELECT * " +
                     "FROM FIGURASDOSDESENHOS " +
-                    "WHERE ID = ?";
+                    "WHERE IDDESENHO = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
 
-            BDSQLServer.COMANDO.setInt(1, id);
+            BDSQLServer.COMANDO.setLong(1, id);
 
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
 
@@ -137,25 +138,31 @@ public class FigurasDosDesenhos {
 
         return ret;
     }
-    public static FiguraDoDesenho getFiguraDoDesenho(int id) throws Exception
+    public static Vector<FiguraDoDesenho> getFiguraDoDesenho(long id) throws Exception
     {
         FiguraDoDesenho fds = null;
+        Vector<FiguraDoDesenho> vetor = new Vector<FiguraDoDesenho>();
+        
         try
         {
-            String sql = "SELECT * FROM FIGURASDOSDESENHOS WHERE EMAILDODONO = ?";
+            String sql = "SELECT * FROM FIGURASDOSDESENHOS WHERE id = ?";
             BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setInt(1, id);
+            BDSQLServer.COMANDO.setLong(1, id);
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
 
             if(!resultado.first())
-                throw new Exception("Nao cadastrado");
-
-            fds = new FiguraDoDesenho(resultado.getInt("id"), resultado.getString("figura"), resultado.getLong("idDoDesenho"));
+            	return vetor;
+            
+            while(resultado.next())
+            {
+            	fds = new FiguraDoDesenho(resultado.getInt("id"), resultado.getString("figura"), resultado.getLong("idDoDesenho"));
+            	vetor.add(fds);
+            }
         }
         catch(Exception ex)
         {
             throw new Exception("Erro ao procurar desenho");
         }
-        return fds;
+        return vetor;
     }
 }

@@ -1,12 +1,13 @@
 package server;
 
 import java.io.*;
+import bd.daos.*;
+import bd.dbos.*;
 import java.net.*;
 import java.util.*;
 
 public class SupervisoraDeConexao extends Thread
 {
-    private double              valor=0;
     private Parceiro            usuario;
     private Socket              conexao;
     private ArrayList<Parceiro> usuarios;
@@ -79,36 +80,47 @@ public class SupervisoraDeConexao extends Thread
 
             for(;;)
             {
-                Comunicado comunicado = this.usuario.envie ();
-
-                if (comunicado==null)
-                    return;
-                else if (comunicado instanceof PedidoDeOperacao)
-                {
-					PedidoDeOperacao pedidoDeOperacao = (PedidoDeOperacao)comunicado;
-					
-					switch (pedidoDeOperacao.getOperacao())
-					{
-						case '+':
-						    this.valor += pedidoDeOperacao.getValor();
-						    break;
-						    
-						case '-':
-						    this.valor -= pedidoDeOperacao.getValor();
-						    break;
-						    
-						case '*':
-						    this.valor *= pedidoDeOperacao.getValor();
-						    break;
-						    
-						case '/':
-						    this.valor /= pedidoDeOperacao.getValor();
-                    }
-                }
-                else if (comunicado instanceof PedidoDeResultado)
-                {
-                    this.usuario.receba (new Resultado (this.valor));
-                }
+            	Comunicado comunicado = this.usuario.envie();
+            	
+            	if(comunicado == null)
+            		return;
+            	
+            	if(comunicado instanceof PedidoDeSalvamento)
+            	{
+            		PedidoDeSalvamento pedido = (PedidoDeSalvamento) comunicado;
+            		Desenho desenho = new Desenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());
+            		
+            		if(Desenhos.cadastrado(desenho.getEmailDoDono()))
+            		{
+            			Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono());
+            			
+            			Desenhos.alterar(desenhoASerAlterado);
+            		}
+            		else
+            		{
+            			Desenhos.incluir(desenho);
+            		}
+            		
+            		Vector<FiguraDoDesenho> vetor = FigurasDosDesenhos.getFiguraDoDesenho(desenho.getId());
+            		
+            		if(vetor.capacity() > 0)
+            		{
+            			int id = vetor.lastElement().getId() + 1;
+            			
+            			FigurasDosDesenhos.incluir(new FiguraDoDesenho(id, pedido.getDesenho(), desenho.getId()));
+            		}
+            		else
+            		{
+            			FigurasDosDesenhos.incluir(new FiguraDoDesenho(1, pedido.getDesenho(), desenho.getId()));
+            		}
+            		
+            		usuario.adeus();
+            	}
+            	
+            	if(comunicado instanceof PedidoDeDesenhoSalvo)
+            	{
+  
+            	}
             }
         }
         catch (Exception erro)

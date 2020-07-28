@@ -17,7 +17,7 @@ public class Desenhos {
         try {
             sql = "SELECT * " +
                     "FROM DESENHOS " +
-                    "WHERE email = ?";
+                    "WHERE eMailDoDono = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
 
@@ -41,11 +41,10 @@ public class Desenhos {
         try
         {
             String sql;
-            sql = "insert into Desenhos values(?, ?, ?)";
+            sql = "insert into Desenhos values(?, ?)";
             BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setLong(1,desenho.getId());
-            BDSQLServer.COMANDO.setString(2, desenho.getEmailDoDono());
-            BDSQLServer.COMANDO.setString(3, desenho.getNome());
+            BDSQLServer.COMANDO.setString(1, desenho.getEmailDoDono());
+            BDSQLServer.COMANDO.setString(2, desenho.getNome());
             
 
             BDSQLServer.COMANDO.executeUpdate();
