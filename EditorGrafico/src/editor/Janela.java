@@ -197,6 +197,7 @@ public class Janela extends JFrame
         btnRetangulo.addActionListener(new DesenhoDeRetangulo());
         btnCorFora.addActionListener(new CorFora());
         btnCorDentro.addActionListener(new CorDentro());
+        btnSalvar.addActionListener(new NovoSalvamento());
 
         JPanel     pnlBotoes = new JPanel();
         FlowLayout flwBotoes = new FlowLayout(); 
@@ -509,6 +510,16 @@ public class Janela extends JFrame
             }
             
     }
+    }
+    
+    protected class NovoSalvamento implements ActionListener{
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+    			new JanelaDeSalvamento();
+    		}
+    		catch(Exception a)
+    		{}
+    	}
     }
     protected class FechamentoDeJanela extends WindowAdapter
     {
