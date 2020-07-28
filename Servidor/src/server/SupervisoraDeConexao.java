@@ -90,9 +90,9 @@ public class SupervisoraDeConexao extends Thread
             		PedidoDeSalvamento pedido = (PedidoDeSalvamento) comunicado;
             		Desenho desenho = new Desenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());
             		
-            		if(Desenhos.cadastrado(desenho.getEmailDoDono()))
+            		if(Desenhos.cadastrado(desenho.getEmailDoDono(), desenho.getNome()))
             		{
-            			Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono());
+            			Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());
             			
             			Desenhos.alterar(desenhoASerAlterado);
             		}
@@ -101,25 +101,31 @@ public class SupervisoraDeConexao extends Thread
             			Desenhos.incluir(desenho);
             		}
             		
-            		Vector<FiguraDoDesenho> vetor = FigurasDosDesenhos.getFiguraDoDesenho(desenho.getId());
             		
-            		if(vetor.capacity() > 0)
-            		{
-            			int id = vetor.lastElement().getId() + 1;
-            			
-            			FigurasDosDesenhos.incluir(new FiguraDoDesenho(id, pedido.getDesenho(), desenho.getId()));
-            		}
-            		else
-            		{
+            		if(!FigurasDosDesenhos.cadastrado(desenho.getId()))
             			FigurasDosDesenhos.incluir(new FiguraDoDesenho(1, pedido.getDesenho(), desenho.getId()));
-            		}
+            		else
+            			FigurasDosDesenhos.alterar(new FiguraDoDesenho(1, pedido.getDesenho(), desenho.getId()));
             		
             		usuario.adeus();
             	}
             	
             	if(comunicado instanceof PedidoDeDesenhoSalvo)
             	{
-  
+            		PedidoDeDesenhoSalvo pedido = (PedidoDeDesenhoSalvo) comunicado;
+            		
+            		Desenho desenho = Desenhos.getDesenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());
+            		FiguraDoDesenho figura = FigurasDosDesenhos.getFiguraDoDesenho(desenho.getId());
+            		
+            		Vector<String> retorno = new Vector<String>();
+            		String[] quebrado = figura.getFigura().split(";");
+        			
+        			for(int i = 0; i < quebrado.length; i++)
+        				retorno.add(quebrado[i]);
+        				
+        			usuario.receba(new DesenhoSalvo(retorno));
+        			
+        			usuario.adeus();
             	}
             }
         }

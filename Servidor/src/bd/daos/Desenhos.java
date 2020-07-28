@@ -11,17 +11,20 @@ import bd.core.*;
 import bd.dbos.Desenho;
 
 public class Desenhos {
-    public static boolean cadastrado(String email) throws Exception {
+    public static boolean cadastrado(String email, String nome) throws Exception {
         boolean retorno = false;
         String sql;
         try {
             sql = "SELECT * " +
                     "FROM DESENHOS " +
-                    "WHERE eMailDoDono = ?";
+                    "WHERE eMailDoDono = ? and" +
+                    	  "Nome = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
 
             BDSQLServer.COMANDO.setString(1, email);
+            BDSQLServer.COMANDO.setString(2, nome);
+
 
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
 
@@ -36,7 +39,7 @@ public class Desenhos {
     public static void incluir(Desenho desenho) throws Exception {
         if (desenho == null)
             throw new Exception("desenho não pode ser nulo");
-        if(Desenhos.cadastrado(desenho.getEmailDoDono()))
+        if(Desenhos.cadastrado(desenho.getEmailDoDono(), desenho.getNome()))
             throw new Exception("Esse desenho já foi cadastrado.");
         try
         {
@@ -55,8 +58,8 @@ public class Desenhos {
             throw new Exception("Erro ao cadastrar desenho");
         }
     }
-    public static void excluir(String email) throws Exception {
-        if(!Desenhos.cadastrado(email))
+    public static void excluir(String email, String nome) throws Exception {
+        if(!Desenhos.cadastrado(email, nome))
             throw new Exception("Esse desenho não foi cadastrado, portanto é impossivel excluir ele.");
         try
         {
@@ -84,7 +87,7 @@ public class Desenhos {
         if (desenho==null)
             throw new Exception ("Desenho nao fornecido");
 
-        if (!cadastrado (desenho.getEmailDoDono()))
+        if (!cadastrado (desenho.getEmailDoDono(), desenho.getNome()))
             throw new Exception ("Nao cadastrado");
 
         try
@@ -138,14 +141,15 @@ public class Desenhos {
 
         return ret;
     }
-    public static Desenho getDesenho(String email) throws Exception
+    public static Desenho getDesenho(String email, String nome) throws Exception
     {
         Desenho desenho = null;
         try
         {
-            String sql = "SELECT * FROM DESENHOS WHERE EMAILDODONO = ?";
+            String sql = "SELECT * FROM DESENHOS WHERE EMAILDODONO = ? and NOME = ? ";
             BDSQLServer.COMANDO.prepareStatement(sql);
             BDSQLServer.COMANDO.setString(1, email);
+            BDSQLServer.COMANDO.setString(2, nome);
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
 
             if(!resultado.first())

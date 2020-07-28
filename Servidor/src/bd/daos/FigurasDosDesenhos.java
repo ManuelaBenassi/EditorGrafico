@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class FigurasDosDesenhos {
     public static boolean cadastrado(long id) throws Exception {
@@ -92,15 +91,16 @@ public class FigurasDosDesenhos {
             String sql;
 
             sql = "UPDATE FIGURADOSDESENHOS " +
-                    "SET IDDODESENHO =?, " +
+                    "SET ID =?, " +
                     "FIGURA =?, " +
-                    "WHERE ID =?";
+                    "WHERE IDDESENHO =?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
 
-            BDSQLServer.COMANDO.setLong(1, fds.getIdDoDesenho());
+            BDSQLServer.COMANDO.setInt(1,1);
             BDSQLServer.COMANDO.setString(2, fds.getFigura());
+            BDSQLServer.COMANDO.setLong(3, fds.getIdDoDesenho());
 
 
             BDSQLServer.COMANDO.executeUpdate ();
@@ -138,31 +138,26 @@ public class FigurasDosDesenhos {
 
         return ret;
     }
-    public static Vector<FiguraDoDesenho> getFiguraDoDesenho(long id) throws Exception
+    public static FiguraDoDesenho getFiguraDoDesenho(long id) throws Exception
     {
         FiguraDoDesenho fds = null;
-        Vector<FiguraDoDesenho> vetor = new Vector<FiguraDoDesenho>();
         
         try
         {
-            String sql = "SELECT * FROM FIGURASDOSDESENHOS WHERE id = ?";
+            String sql = "SELECT * FROM FIGURASDOSDESENHOS WHERE IDDESENHO = ?";
             BDSQLServer.COMANDO.prepareStatement(sql);
             BDSQLServer.COMANDO.setLong(1, id);
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
 
             if(!resultado.first())
-            	return vetor;
+            	return fds;
             
-            while(resultado.next())
-            {
-            	fds = new FiguraDoDesenho(resultado.getInt("id"), resultado.getString("figura"), resultado.getLong("idDoDesenho"));
-            	vetor.add(fds);
-            }
+            fds = new FiguraDoDesenho(resultado.getInt("id"), resultado.getString("figura"), resultado.getLong("idDoDesenho"));
         }
         catch(Exception ex)
         {
             throw new Exception("Erro ao procurar desenho");
         }
-        return vetor;
+        return fds;
     }
 }

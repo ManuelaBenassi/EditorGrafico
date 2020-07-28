@@ -70,7 +70,7 @@ public class Linha extends Figura
 
     public String toString()
     {
-        return "r:" +
+        return "l:" +
                this.p1.getX() +
                ":" +
                this.p1.getY() +
@@ -83,6 +83,7 @@ public class Linha extends Figura
                ":" +
                this.getCor().getGreen() +
                ":" +
-               this.getCor().getBlue();
+               this.getCor().getBlue() +
+               ";";
     }
 }

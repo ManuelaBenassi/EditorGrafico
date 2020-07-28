@@ -71,6 +71,7 @@ public class Ponto extends Figura
                ":" +
                this.getCor().getGreen() +
                ":" +
-               this.getCor().getBlue();
+               this.getCor().getBlue() +
+               ";";
     }
 }

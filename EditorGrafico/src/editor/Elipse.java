@@ -133,7 +133,7 @@ public class Elipse extends Figura
 
     public String toString()
     {
-        return "r:" +
+        return "e:" +
                this.p1.getX() +
                ":" +
                this.p1.getY() +
@@ -150,7 +150,8 @@ public class Elipse extends Figura
                ":" +
                this.getCor().getGreen() +
                ":" +
-               this.getCor().getBlue();
+               this.getCor().getBlue() +
+               ";";
     }
     @Override
     public Object clone()

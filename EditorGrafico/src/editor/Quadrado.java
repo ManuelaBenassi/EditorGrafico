@@ -71,7 +71,7 @@ public class Quadrado extends Figura{
     }
     public String toString()
     {
-        return "r:" +
+        return "q:" +
                this.p1.getX() +
                ":" +
                this.p1.getY() +
@@ -84,7 +84,8 @@ public class Quadrado extends Figura{
                ":" +
                this.getCor().getGreen() +
                ":" +
-               this.getCor().getBlue();
+               this.getCor().getBlue() +
+               ";";
     }
 
     //métodos obrigatorios
