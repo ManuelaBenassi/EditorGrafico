@@ -92,8 +92,7 @@ public class SupervisoraDeConexao extends Thread
             		
             		if(Desenhos.cadastrado(desenho.getEmailDoDono(), desenho.getNome()))
             		{
-            			Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());
-            			
+            			Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());	
             			Desenhos.alterar(desenhoASerAlterado);
             		}
             		else
@@ -101,11 +100,8 @@ public class SupervisoraDeConexao extends Thread
             			Desenhos.incluir(desenho);
             		}
             		
-            		
-            		if(!FigurasDosDesenhos.cadastrado(desenho.getId()))
-            			FigurasDosDesenhos.incluir(new FiguraDoDesenho(1, pedido.getDesenho(), desenho.getId()));
-            		else
-            			FigurasDosDesenhos.alterar(new FiguraDoDesenho(1, pedido.getDesenho(), desenho.getId()));
+            		for(int i = 0; i < pedido.getDesenho().size(); i++)
+            			FigurasDosDesenhos.incluir(new FiguraDoDesenho(i+1, pedido.getDesenho().get(i), desenho.getId()));
             		
             		usuario.adeus();
             	}
@@ -114,16 +110,9 @@ public class SupervisoraDeConexao extends Thread
             	{
             		PedidoDeDesenhoSalvo pedido = (PedidoDeDesenhoSalvo) comunicado;
             		
-            		Desenho desenho = Desenhos.getDesenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());
-            		FiguraDoDesenho figura = FigurasDosDesenhos.getFiguraDoDesenho(desenho.getId());
-            		
-            		Vector<String> retorno = new Vector<String>();
-            		String[] quebrado = figura.getFigura().split(";");
-        			
-        			for(int i = 0; i < quebrado.length; i++)
-        				retorno.add(quebrado[i]);
+            		Desenho desenho = Desenhos.getDesenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());   				
         				
-        			usuario.receba(new DesenhoSalvo(retorno));
+        			usuario.receba(new DesenhoSalvo(FigurasDosDesenhos.getFiguraDoDesenho(desenho.getId())));
         			
         			usuario.adeus();
             	}

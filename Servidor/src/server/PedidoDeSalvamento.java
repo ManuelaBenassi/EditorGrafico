@@ -1,14 +1,16 @@
 package server;
 
+import java.util.*;
+
 public class PedidoDeSalvamento extends Comunicado
 {
 	protected static final long serialVersionUID = 1L;
 	
     private String emailDoDono;
     private String nomeDesenho;
-    private String desenho;
+    private Vector<String> desenho;
     
-    public PedidoDeSalvamento (String emailDoDono, String nomeDesenho, String desenho)
+    public PedidoDeSalvamento (String emailDoDono, String nomeDesenho, Vector<String> desenho)
     {
         this.emailDoDono = emailDoDono;
         this.nomeDesenho = nomeDesenho;
@@ -25,14 +27,14 @@ public class PedidoDeSalvamento extends Comunicado
     	return this.nomeDesenho;
     }
     
-    public String getDesenho()
+    public Vector<String> getDesenho()
     {
     	return this.desenho;
     }
     
     public String toString ()
     {
-        return ("" + this.emailDoDono + "||" + this.nomeDesenho + "||" + this.desenho);
+        return ("" + this.emailDoDono + "||" + this.nomeDesenho + "||" + this.desenho.toString());
     }
 }
 

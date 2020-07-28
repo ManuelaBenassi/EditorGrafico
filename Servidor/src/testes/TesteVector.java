@@ -17,6 +17,11 @@ public class TesteVector {
 				teste.add(quebrado[i]);
 				
 			System.out.println(teste);
+			System.out.println(teste.size());
+			
+    		for(int i = 0; i < teste.size(); i++)
+    		{
+    			System.out.println(i);    		}
 		}
 		catch(Exception e)
 		{}
