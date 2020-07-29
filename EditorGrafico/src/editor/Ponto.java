@@ -20,9 +20,9 @@ public class Ponto extends Figura
         this.y = y;
     }
 
-    public Ponto (String s)
+    public Ponto (String desenho)
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
+        StringTokenizer quebrador = new StringTokenizer(desenho,":");
 
         quebrador.nextToken();
 

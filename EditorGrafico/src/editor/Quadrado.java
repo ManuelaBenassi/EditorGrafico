@@ -14,6 +14,10 @@ public class Quadrado extends Figura{
         this.p2 = new Ponto(x2, y2);
 
     }
+    public Quadrado (String desenho) 
+    {
+    	
+    }
     public void setP1(int x, int y)
     {
         this.p1.setX(x);

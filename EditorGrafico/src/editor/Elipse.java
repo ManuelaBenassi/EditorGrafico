@@ -15,6 +15,11 @@ public class Elipse extends Figura
         this.p2 = new Ponto(x2, y2);
         this.p3 = new Ponto(x3, y3);
     }
+    
+    public Elipse(String desenho)
+    {
+    	
+    }
 
     public void setP1(int x, int y)
     {
@@ -150,8 +155,7 @@ public class Elipse extends Figura
                ":" +
                this.getCor().getGreen() +
                ":" +
-               this.getCor().getBlue() +
-               ";";
+               this.getCor().getBlue();
     }
     @Override
     public Object clone()

@@ -3,6 +3,9 @@ package editor;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import cliente.Cliente;
+
 import javax.imageio.*;
 import java.io.*;
 import java.util.*;
@@ -41,7 +44,38 @@ public class Janela extends JFrame
     protected Ponto p1, p2;
     
     protected Vector<Figura> figuras = new Vector<Figura>();
-
+    protected Janela janela = this;
+    
+    public void recebaDesenho(Vector<String> desenho)
+    {
+    	for(int i = 0; i < desenho.size(); i++)
+    	{
+    		switch(desenho.get(i).charAt(0))
+    		{
+	    		case 'c': figuras.add(new Circulo(desenho.get(i)));break;
+	    		case 'e': figuras.add(new Elipse(desenho.get(i)));break;
+	    		case 'l': figuras.add(new Linha(desenho.get(i)));break;
+	    		case 'p': figuras.add(new Ponto(desenho.get(i)));break;
+	    		case 'q': figuras.add(new Quadrado(desenho.get(i)));break;
+	    		case 'r': figuras.add(new Retangulo(desenho.get(i)));break;
+    		}
+    	}
+    }
+    
+    protected void conectarCliente(String emailDoDono, String nomeDesenho, boolean vaiSalvar)
+    {
+    	Vector<String> desenho = new Vector<String>();
+    	
+    	for(int i = 0; i < figuras.size(); i++)
+    		desenho.add(figuras.get(i).toString());
+    	if(vaiSalvar)
+    		new Cliente(emailDoDono, nomeDesenho, desenho, janela);
+    	else
+    		new Cliente(emailDoDono, nomeDesenho, null, janela);
+    	
+    	System.out.println("passou aqui");
+    }
+    
     public Janela ()
     {
         
@@ -198,6 +232,7 @@ public class Janela extends JFrame
         btnCorFora.addActionListener(new CorFora());
         btnCorDentro.addActionListener(new CorDentro());
         btnSalvar.addActionListener(new NovoSalvamento());
+        btnAbrir.addActionListener(new AbrirDesenho());
 
         JPanel     pnlBotoes = new JPanel();
         FlowLayout flwBotoes = new FlowLayout(); 
@@ -515,7 +550,17 @@ public class Janela extends JFrame
     protected class NovoSalvamento implements ActionListener{
     	public void actionPerformed(ActionEvent e) {
     		try {
-    			new JanelaDeSalvamento();
+    			new JanelaDeSalvamento(janela);
+    		}
+    		catch(Exception a)
+    		{}
+    	}
+    }
+    
+    protected class AbrirDesenho implements ActionListener{
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+    			new JanelaParaAbrir(janela);
     		}
     		catch(Exception a)
     		{}

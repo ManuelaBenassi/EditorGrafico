@@ -9,7 +9,7 @@ public class Teste {
 			Desenho desenho = new Desenho("brentan@gmail.com", "teste", (long)1);
 			
 			Desenhos.incluir(desenho);
-			System.out.println("Funfou!");
+			//System.out.println(Desenhos.cadastrado(desenho.getEmailDoDono(), desenho.getNome()));
 		}
 		catch(Exception a) 
 		{

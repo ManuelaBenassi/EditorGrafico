@@ -17,6 +17,11 @@ public class Circulo extends Figura
         this.p1 = new Ponto(x1, y1);
         this.p2 = new Ponto(x2, y2);
     }
+    
+    public Circulo(String dados)
+    {
+    	
+    }
 
     public void setP1(int x, int y)
     {
@@ -106,8 +111,7 @@ public class Circulo extends Figura
                ":" +
                this.getCor().getGreen() +
                ":" +
-               this.getCor().getBlue() + 
-               ";";
+               this.getCor().getBlue();
     }
 
     //métodos obrigatorios

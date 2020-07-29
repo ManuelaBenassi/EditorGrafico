@@ -5,7 +5,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-public class JanelaDeSalvamento extends JFrame 
+public class JanelaParaAbrir extends JFrame 
 {
 	protected static final long serialVersionUID = 1L;
 	
@@ -16,11 +16,11 @@ public class JanelaDeSalvamento extends JFrame
 	private JButton[] button = new JButton[2];
 
 	private String[] label = {"Email: ", "Nome Do Desenho: "};
-	private String[] buttonName = {"Salvar", "Cancelar"};
+	private String[] buttonName = {"Abrir", "Cancelar"};
 
-	public JanelaDeSalvamento(Janela janela) 
+	public JanelaParaAbrir(Janela janela) 
 	{
-		super("Salvar Desenho");
+		super("Abrir Desenho");
 
 		this.setLayout(new GridLayout(3, 2));
 	        
@@ -54,7 +54,7 @@ public class JanelaDeSalvamento extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				janela.conectarCliente(field[0].getText(), field[1].getText(), true);
+				janela.conectarCliente(field[0].getText(), field[1].getText(), false);
 				System.out.println("passou aqui");
             }
 		});
@@ -62,7 +62,7 @@ public class JanelaDeSalvamento extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				JanelaDeSalvamento.this.dispose();
+				JanelaParaAbrir.this.dispose();
             }
 		});
 

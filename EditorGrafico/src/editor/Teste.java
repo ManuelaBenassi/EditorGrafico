@@ -6,7 +6,7 @@ public class Teste
     {
     	try
     	{
-    		new JanelaDeSalvamento ();
+    		
     	}
     	catch(Exception a)
     	{

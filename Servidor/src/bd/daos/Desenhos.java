@@ -17,7 +17,7 @@ public class Desenhos {
         try {
             sql = "SELECT * " +
                     "FROM DESENHOS " +
-                    "WHERE eMailDoDono = ? and" +
+                    "WHERE eMailDoDono = ? and " +
                     	  "Nome = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);

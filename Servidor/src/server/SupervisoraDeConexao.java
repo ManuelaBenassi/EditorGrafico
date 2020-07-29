@@ -75,34 +75,55 @@ public class SupervisoraDeConexao extends Thread
             synchronized (this.usuarios)
             {
                 this.usuarios.add (this.usuario);
+                System.out.println("passou aqui");
             }
 
 
             for(;;)
             {
             	Comunicado comunicado = this.usuario.envie();
+            	System.out.println("passou aqui");
             	
             	if(comunicado == null)
+            	{
+            		System.out.println("passou aqui");
             		return;
+            	}
             	
             	if(comunicado instanceof PedidoDeSalvamento)
             	{
             		PedidoDeSalvamento pedido = (PedidoDeSalvamento) comunicado;
             		Desenho desenho = new Desenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());
+            		System.out.println("passou aqui");
             		
             		if(Desenhos.cadastrado(desenho.getEmailDoDono(), desenho.getNome()))
             		{
-            			Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());	
-            			Desenhos.alterar(desenhoASerAlterado);
+            			try
+            			{
+            				Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());	
+            				Desenhos.alterar(desenhoASerAlterado);
+            			}
+            			catch(Exception a)
+            			{
+            				System.err.println(a.getMessage());
+            			}
             		}
             		else
             		{
-            			Desenhos.incluir(desenho);
+            			try
+            			{
+            				Desenhos.incluir(desenho);
+            			}
+            			catch(Exception a)
+            			{
+            				System.err.println(a.getMessage());
+            			}
             		}
             		
             		for(int i = 0; i < pedido.getDesenho().size(); i++)
             			FigurasDosDesenhos.incluir(new FiguraDoDesenho(i+1, pedido.getDesenho().get(i), desenho.getId()));
             		
+            		System.out.println("passou aqui");
             		usuario.adeus();
             	}
             	
