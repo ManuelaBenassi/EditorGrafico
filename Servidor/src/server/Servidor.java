@@ -4,20 +4,11 @@ import java.util.*;
 
 public class Servidor
 {
-	public static String PORTA_PADRAO = "3000";
+	public static String PORTA_PADRAO = "2000";
 	
     public static void main (String[] args)
     {
-        if (args.length>1)
-        {
-            System.err.println ("Uso esperado: java Servidor [PORTA]\n");
-            return;
-        }
-
         String porta=Servidor.PORTA_PADRAO;
-        
-        if (args.length==1)
-            porta = args[0];
 
         ArrayList<Parceiro> usuarios =
         new ArrayList<Parceiro> ();
@@ -28,6 +19,7 @@ public class Servidor
             aceitadoraDeConexao =
             new AceitadoraDeConexao (porta, usuarios);
             aceitadoraDeConexao.start();
+            System.out.println("O servidor está no ar na porta " + Servidor.PORTA_PADRAO + ". Aproveite!");
         }
         catch (Exception erro)
         {

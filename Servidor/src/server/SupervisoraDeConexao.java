@@ -1,12 +1,13 @@
 package server;
 
 import java.io.*;
+import bd.daos.*;
+import bd.dbos.*;
 import java.net.*;
 import java.util.*;
 
 public class SupervisoraDeConexao extends Thread
 {
-    private double              valor=0;
     private Parceiro            usuario;
     private Socket              conexao;
     private ArrayList<Parceiro> usuarios;
@@ -74,41 +75,68 @@ public class SupervisoraDeConexao extends Thread
             synchronized (this.usuarios)
             {
                 this.usuarios.add (this.usuario);
+                System.out.println("passou aqui");
             }
 
 
             for(;;)
             {
-                Comunicado comunicado = this.usuario.envie ();
-
-                if (comunicado==null)
-                    return;
-                else if (comunicado instanceof PedidoDeOperacao)
-                {
-					PedidoDeOperacao pedidoDeOperacao = (PedidoDeOperacao)comunicado;
-					
-					switch (pedidoDeOperacao.getOperacao())
-					{
-						case '+':
-						    this.valor += pedidoDeOperacao.getValor();
-						    break;
-						    
-						case '-':
-						    this.valor -= pedidoDeOperacao.getValor();
-						    break;
-						    
-						case '*':
-						    this.valor *= pedidoDeOperacao.getValor();
-						    break;
-						    
-						case '/':
-						    this.valor /= pedidoDeOperacao.getValor();
-                    }
-                }
-                else if (comunicado instanceof PedidoDeResultado)
-                {
-                    this.usuario.receba (new Resultado (this.valor));
-                }
+            	Comunicado comunicado = this.usuario.envie();
+            	System.out.println("passou aqui");
+            	
+            	if(comunicado == null)
+            	{
+            		System.out.println("passou aqui");
+            		return;
+            	}
+            	
+            	if(comunicado instanceof PedidoDeSalvamento)
+            	{
+            		PedidoDeSalvamento pedido = (PedidoDeSalvamento) comunicado;
+            		Desenho desenho = new Desenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());
+            		System.out.println("passou aqui");
+            		
+            		if(Desenhos.cadastrado(desenho.getEmailDoDono(), desenho.getNome()))
+            		{
+            			try
+            			{
+            				Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());	
+            				Desenhos.alterar(desenhoASerAlterado);
+            			}
+            			catch(Exception a)
+            			{
+            				System.err.println(a.getMessage());
+            			}
+            		}
+            		else
+            		{
+            			try
+            			{
+            				Desenhos.incluir(desenho);
+            			}
+            			catch(Exception a)
+            			{
+            				System.err.println(a.getMessage());
+            			}
+            		}
+            		
+            		for(int i = 0; i < pedido.getDesenho().size(); i++)
+            			FigurasDosDesenhos.incluir(new FiguraDoDesenho(i+1, pedido.getDesenho().get(i), desenho.getId()));
+            		
+            		System.out.println("passou aqui");
+            		usuario.adeus();
+            	}
+            	
+            	if(comunicado instanceof PedidoDeDesenhoSalvo)
+            	{
+            		PedidoDeDesenhoSalvo pedido = (PedidoDeDesenhoSalvo) comunicado;
+            		
+            		Desenho desenho = Desenhos.getDesenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());   				
+        				
+        			usuario.receba(new DesenhoSalvo(FigurasDosDesenhos.getFiguraDoDesenho(desenho.getId())));
+        			
+        			usuario.adeus();
+            	}
             }
         }
         catch (Exception erro)

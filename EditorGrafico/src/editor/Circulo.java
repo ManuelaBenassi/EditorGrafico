@@ -29,6 +29,10 @@ public class Circulo extends Figura {
         this.p2 = new Ponto(x2, y2);
     }
 
+    public Circulo(String dados) {
+
+    }
+
     /**
      * Da o valor dos parâmetros para o ponto1
      * 
@@ -138,9 +142,8 @@ public class Circulo extends Figura {
      * 
      * @return String com todas as informações
      */
-
     public String toString() {
-        return "r:" + this.p1.getX() + ":" + this.p1.getY() + ":" + this.p2.getX() + ":" + this.p2.getY() + ":"
+        return "c:" + this.p1.getX() + ":" + this.p1.getY() + ":" + this.p2.getX() + ":" + this.p2.getY() + ":"
                 + this.getCor().getRed() + ":" + this.getCor().getGreen() + ":" + this.getCor().getBlue();
     }
 

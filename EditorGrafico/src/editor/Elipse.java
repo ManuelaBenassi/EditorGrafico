@@ -33,6 +33,10 @@ public public class Elipse extends Figura {
         this.p3 = new Ponto(x3, y3);
     }
 
+    public Elipse(String desenho) {
+
+    }
+
     /**
      * Da o valor dos parâmetros para o ponto1
      * 
@@ -185,6 +189,8 @@ public public class Elipse extends Figura {
             this.largura = deltaY;
     }
 
+    <<<<<<<HEAD
+
     /**
      * Método que define a string da classe
      * 
@@ -194,7 +200,6 @@ public public class Elipse extends Figura {
         return "r:" + this.p1.getX() + ":" + this.p1.getY() + ":" + this.p2.getX() + ":" + this.p2.getY() + ":"
                 + this.p3.getX() + ":" + this.p3.getY() + ":" + this.getCor().getRed() + ":" + this.getCor().getGreen()
                 + ":" + this.getCor().getBlue();
-    }
 
     /**
      * Método que cria um clone dessa classe

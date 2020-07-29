@@ -7,19 +7,20 @@ import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class FigurasDosDesenhos {
-    public static boolean cadastrado(int id) throws Exception {
+    public static boolean cadastrado(long id) throws Exception {
         boolean retorno = false;
         String sql;
         try {
             sql = "SELECT * " +
                     "FROM FIGURASDOSDESENHOS " +
-                    "WHERE ID = ?";
+                    "WHERE IDDESENHO = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
 
-            BDSQLServer.COMANDO.setInt(1, id);
+            BDSQLServer.COMANDO.setLong(1, id);
 
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
 
@@ -41,8 +42,8 @@ public class FigurasDosDesenhos {
             String sql;
             sql = "insert into FigurasDosDesenhos values(?, ?, ?)";
             BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setLong(1,figura.getId());
-            BDSQLServer.COMANDO.setLong(2, figura.getIdDoDesenho());
+            BDSQLServer.COMANDO.setLong(1,figura.getIdDoDesenho());
+            BDSQLServer.COMANDO.setLong(2, figura.getId());
             BDSQLServer.COMANDO.setString(3, figura.getFigura());
             
 
@@ -91,15 +92,16 @@ public class FigurasDosDesenhos {
             String sql;
 
             sql = "UPDATE FIGURADOSDESENHOS " +
-                    "SET IDDODESENHO =?, " +
+                    "SET ID =?, " +
                     "FIGURA =?, " +
-                    "WHERE ID =?";
+                    "WHERE IDDESENHO =?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
 
-            BDSQLServer.COMANDO.setLong(1, fds.getIdDoDesenho());
+            BDSQLServer.COMANDO.setInt(1,1);
             BDSQLServer.COMANDO.setString(2, fds.getFigura());
+            BDSQLServer.COMANDO.setLong(3, fds.getIdDoDesenho());
 
 
             BDSQLServer.COMANDO.executeUpdate ();
@@ -137,25 +139,28 @@ public class FigurasDosDesenhos {
 
         return ret;
     }
-    public static FiguraDoDesenho getFiguraDoDesenho(int id) throws Exception
+    public static Vector<String> getFiguraDoDesenho(long id) throws Exception
     {
-        FiguraDoDesenho fds = null;
+        Vector<String> retorno = new Vector<String>();
+        
         try
         {
-            String sql = "SELECT * FROM FIGURASDOSDESENHOS WHERE EMAILDODONO = ?";
+            String sql = "SELECT * FROM FIGURASDOSDESENHOS WHERE IDDESENHO = ?";
             BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setInt(1, id);
+            BDSQLServer.COMANDO.setLong(1, id);
             MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
 
             if(!resultado.first())
-                throw new Exception("Nao cadastrado");
+            	return null;
+            
+            while(resultado.next())
+                retorno.add(resultado.getString("figura"));
 
-            fds = new FiguraDoDesenho(resultado.getInt("id"), resultado.getString("figura"), resultado.getLong("idDoDesenho"));
         }
         catch(Exception ex)
         {
             throw new Exception("Erro ao procurar desenho");
         }
-        return fds;
+        return retorno;
     }
 }

@@ -9,6 +9,11 @@ public class Desenho{
         this.setNome(nome);
         this.setId(id);
     }
+    
+    public Desenho(String emailDoDono, String nome) throws Exception {
+        this.setEmailDoDono(emailDoDono);
+        this.setNome(nome);
+    }
 
     public Desenho(Desenho modelo) throws Exception {
         if(modelo == null)

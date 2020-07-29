@@ -20,9 +20,9 @@ public class Linha extends Figura
         this.p2 = new Ponto (x2,y2,cor);
     }
 
-    public Linha (String s)
+    public Linha (String desenho)
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
+        StringTokenizer quebrador = new StringTokenizer(desenho,":");
 
         quebrador.nextToken();
 
@@ -70,7 +70,7 @@ public class Linha extends Figura
 
     public String toString()
     {
-        return "r:" +
+        return "l:" +
                this.p1.getX() +
                ":" +
                this.p1.getY() +
