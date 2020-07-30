@@ -2,28 +2,33 @@ package cliente_servidor;
 
 public class PedidoDeDesenhoSalvo extends Comunicado
 {
-	protected static final long serialVersionUID = 1L;
+    /*
+        Essa clase tem como objetivo fazer a solicitação de um desenho de um determinado email
+        @params:
+            String emailDoDono,
+            String nomeDesenho
+    */
 	
 	private String emailDoDono, nomeDesenho;
 	
 	public PedidoDeDesenhoSalvo(String email, String nome)
 	{
-		this.emailDoDono = email;
-		this.nomeDesenho = nome;
+            this.emailDoDono = email;
+            this.nomeDesenho = nome;
 	}
 	
 	public String getEmailDoDono()
 	{
-		return this.emailDoDono;
+            return this.emailDoDono;
 	}
 	
 	public String getNomeDesenho()
 	{
-		return this.nomeDesenho;
+            return this.nomeDesenho;
 	}
 	
 	public String toString()
 	{
-		return ("" + this.emailDoDono + "||" + this.nomeDesenho);
+            return ("" + this.emailDoDono + "||" + this.nomeDesenho);
 	}
 }

@@ -44,16 +44,16 @@ public class Janela extends JFrame
     protected Ponto p1, p2;
     
     protected Vector<Figura> figuras = new Vector<Figura>();
-    protected Janela janela = this;
+    protected Janela janela = this; //--> Janela chamante
     
-    public void recebaDesenho(Vector<String> desenho)
+    public void recebaDesenho(Vector<String> desenho)  //para receber um desenho do cliente
     {
-        figuras.removeAllElements();
-        pnlDesenho.removeAll();
+        figuras.removeAllElements();//retirno as figuras do vetor
+        pnlDesenho.removeAll();//limpo a tela
         
-    	for(int i = 0; i < desenho.size(); i++)
+    	for(int i = 0; i < desenho.size(); i++) //percorro o Vector<String> desenho
     	{
-    		switch(desenho.get(i).charAt(0))
+    		switch(desenho.get(i).charAt(0)) //baseado na primeira letra, vejo a figura que será instanciada
     		{
 	    		case 'c': figuras.add(new Circulo(desenho.get(i)));break;
 	    		case 'e': figuras.add(new Elipse(desenho.get(i)));break;
@@ -63,23 +63,26 @@ public class Janela extends JFrame
 	    		case 'r': figuras.add(new Retangulo(desenho.get(i)));break;
     		}
                 
-            figuras.get(i).torneSeVisivel(pnlDesenho.getGraphics(), corDentro);
+            figuras.get(i).torneSeVisivel(pnlDesenho.getGraphics(), corDentro); //torno ela visivel
     	}
     }
     
-    protected void conectarCliente(String emailDoDono, String nomeDesenho, boolean vaiSalvar)
-    {
-    	Vector<String> desenho = new Vector<String>();
-    	
-    	for(int i = 0; i < figuras.size(); i++)
-    		desenho.add(figuras.get(i).toString());
-    	if(vaiSalvar)
-    		new Cliente(emailDoDono, nomeDesenho, desenho, janela);
-    	else
-    		new Cliente(emailDoDono, nomeDesenho, null, janela);
+    protected void conectarCliente(String emailDoDono, String nomeDesenho, boolean vaiSalvar)//subJanelas chama ele para chamar o cliene
+    {	
+        if(vaiSalvar) //se for salvar
+        {
+            Vector<String> desenho = new Vector<String>();//instancio um Vector<String>
+            
+            for(int i = 0; i < figuras.size(); i++)
+    		desenho.add(figuras.get(i).toString()); //coloco os 'toString()' das figuras que estão no Vector<Figuras> nele
+    		
+            new Cliente(emailDoDono, nomeDesenho, desenho, janela);//Novo cliente com um Vector<String>
+        }
+    	else//senão
+            new Cliente(emailDoDono, nomeDesenho, null, janela);//Novo cliente sem um Vector<String>
     }
     
-    public void recebaResultado(String resultado)
+    public void recebaResultado(String resultado) //cliente chama para informar o resultado das operações
     {
         JOptionPane.showMessageDialog(null, resultado, "Alerta", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -379,7 +382,7 @@ public class Janela extends JFrame
                                                 if(esperaFimQuadrado){
                                                     esperaFimQuadrado = false;
                                                     esperaInicioQuadrado = false;
-                                                     figuras.add(new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corFora));
+                                                    figuras.add(new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corFora));
                                                     figuras.get(figuras.size() - 1).torneSeVisivel(pnlDesenho.getGraphics(),corDentro);
                                                   statusBar1.setText("Mensagem:");
                                              }

@@ -7,13 +7,21 @@ import editor.Janela;
 
 public class Cliente
 {
+    /*
+        Classe cliente. Tem como objetivo fazer a conexão com o servidor, enviar e receber os dados do mesmo
+        @params:
+           String emailDoDono,
+           String nomeDesenho,
+           Vector<String> desenho,
+           Janela janela --> janela chamante da classe, para ele saber onde enviar os dados recebidos
+    */
 	public Cliente(String emailDoDono, String nomeDesenho, Vector<String> desenho, Janela janela)
 	{	
         Socket conexao=null;
         try
         {
             String host = "localhost";
-            int    porta= 3000;
+            int    porta= 8000;
             conexao = new Socket (host, porta);
         }
         catch (Exception erro)
@@ -58,41 +66,38 @@ public class Cliente
             return;
         }
 
-		try
-		{
-			if (desenho != null)
-			{
-                            servidor.receba (new PedidoDeSalvamento (emailDoDono, nomeDesenho, desenho));
-                            EnvioDeResultado envioDeResultado = (EnvioDeResultado) servidor.envie();
-                            
-                            janela.recebaResultado(envioDeResultado.getResultado());
-			}
-			else 
-			{
-                            servidor.receba (new PedidoDeDesenhoSalvo (emailDoDono, nomeDesenho));
+        try
+        {
+            if (desenho != null) //se algum desenho foi passado, é porque queremos salvar um desenho
+            {
+                servidor.receba (new PedidoDeSalvamento (emailDoDono, nomeDesenho, desenho)); //envio um pedido de salvamento
+                EnvioDeResultado envioDeResultado = (EnvioDeResultado) servidor.envie(); //peço para o servidor me enviar o resultado
 
-                            Comunicado comunicado = servidor.envie ();
+                janela.recebaResultado(envioDeResultado.getResultado()); //envio o resultado para a janela chamante
+            }
+            else //caso não haja desenho é porque eu quero resgatar um desenho
+            {
+                servidor.receba (new PedidoDeDesenhoSalvo (emailDoDono, nomeDesenho)); //peço um desenho desse dono
 
-                            if(comunicado instanceof EnvioDeResultado)
-                            {
-                                EnvioDeResultado envioDeResultado = (EnvioDeResultado) comunicado;
-                                janela.recebaResultado(envioDeResultado.getResultado());
-                            }
+                Comunicado comunicado = servidor.envie (); //servidor me envia um comunicado
 
-                            if(comunicado instanceof DesenhoSalvo)
-                            {
-                                DesenhoSalvo resultado = (DesenhoSalvo) comunicado;
-                                janela.recebaDesenho(resultado.getDesenho());
-                                janela.recebaResultado("Desenho resgatado com sucesso!");
-                            }				
-			}
-		}
-		catch (Exception erro)
-		{
-			System.err.println ("Erro de comunicacao com o servidor;");
-			System.err.println ("Tente novamente!");
-			System.err.println ("Caso o erro persista, termine o programa");
-			System.err.println ("e volte a tentar mais tarde!\n");
-		}
+                if(comunicado instanceof EnvioDeResultado) //se for um EnvioDeResultado, é porque não deu certo
+                {
+                    EnvioDeResultado envioDeResultado = (EnvioDeResultado) comunicado;
+                    janela.recebaResultado(envioDeResultado.getResultado());
+                }
+
+                if(comunicado instanceof DesenhoSalvo) // se for de DesenhoSalvo é porque deu certo
+                {
+                    DesenhoSalvo resultado = (DesenhoSalvo) comunicado;
+                    janela.recebaDesenho(resultado.getDesenho()); //devolvo o desenho
+                    janela.recebaResultado("Desenho resgatado com sucesso!");//aviso a janela que deu certo
+                }				
+            }
+        }
+        catch (Exception erro)
+        {
+            janela.recebaResultado("Erro de comunicação com o servidor");
+        }
     }
 }

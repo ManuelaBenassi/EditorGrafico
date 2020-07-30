@@ -7,7 +7,7 @@ public class Quadrado extends Figura{
     protected Ponto p1, p2;
     protected int altura, largura;
     
-    public Quadrado(int x1, int x2, int y1, int y2, Color cor)
+    public Quadrado(int x1, int y1, int x2, int y2, Color cor)
     {
         super(cor);
 
@@ -56,31 +56,35 @@ public class Quadrado extends Figura{
     {
         return this.p2;
     }
+    
+    @Override
     public void torneSeVisivel(Graphics g,Color c)
     {
-        g.setColor(super.cor);
+        g.setColor(this.cor);
         calculaTamanho();// caclcula as dimensoes do quadrado
-        g.drawRect(this.p1.getX(), this.p1.getY(), largura, altura);
-        g.setColor(c);
-        g.fillRect(this.p1.getX(), this.p1.getY(), largura, altura);
+        g.drawRect(this.p1.getX(), this.p1.getY(), //ponto inicial clicado
+                   largura, //largura do quadrado
+                   altura); //altura do quadrado
+        g.setColor(c);//define a cor para pintar o fundo
+        g.fillRect(this.p1.getX(), this.p1.getY(), //ponto inicial clicado
+                   largura, //largura do quadrado
+                   altura);//altura do quadrado
     }
     private void calculaTamanho()
-    { int deltaX, deltaY;
-      int comparacaoX, comparacaoY;
+    { 
+        int deltaX, deltaY;
 
         deltaX = this.p1.getX() - this.p2.getX();
-        comparacaoX = deltaX;
 
         if(deltaX < 0)
-            comparacaoX = -deltaX;
+            deltaX = -deltaX;
 
         deltaY = this.p1.getY() - this.p2.getY();
-        comparacaoY = deltaY;
 
         if(deltaY < 0)
-            comparacaoY = -deltaY;
+            deltaY = -deltaY;
 
-        if(comparacaoX >= comparacaoY) //vejo se a dist�ncia entre os dois pontos � maior no eixo X ou no eixo Y
+        if(deltaX >= deltaY) //vejo se a dist�ncia entre os dois pontos � maior no eixo X ou no eixo Y
         {
             this.altura = deltaX;                               //sendo no eixo x:
                                                                 //-usarei por parametro de distancia o deltaX;

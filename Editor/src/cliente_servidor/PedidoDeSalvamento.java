@@ -4,7 +4,13 @@ import java.util.*;
 
 public class PedidoDeSalvamento extends Comunicado
 {
-	protected static final long serialVersionUID = 1L;
+    /*
+        Essa classe tem por objetivo indicar que o cliente esá fazendo um pedido para ter um desenho salvo
+        @params:
+            String emailDoDono,
+            String nomeDesenho,
+            Vector<String> desenho
+    */
 	
     private String emailDoDono;
     private String nomeDesenho;

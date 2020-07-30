@@ -4,5 +4,8 @@ import java.io.*;
 
 public class Comunicado implements Serializable, Cloneable
 {
-	protected static final long serialVersionUID = 1L;
+    /*
+        Classe que servirá apenas para ser herdada por outras classes.
+        Serve para podermos deixar claro as classes que vão servir de comunicado
+    */
 }

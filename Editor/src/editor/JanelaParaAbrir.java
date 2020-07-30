@@ -7,37 +7,39 @@ import javax.swing.*;
 
 public class JanelaParaAbrir extends JFrame 
 {
-	protected static final long serialVersionUID = 1L;
-	
-	private JPanel[] panelField = new JPanel[2];
-	private JTextField[] field = new JTextField[2];
-	
-	private JPanel[] panelButton = new JPanel[1];
-	private JButton[] button = new JButton[2];
+    /*
+        Janela com função de coletar informações para salvar um desenho
+    */
 
-	private String[] label = {"Email: ", "Nome Do Desenho: "};
-	private String[] buttonName = {"Abrir", "Cancelar"};
+    private JPanel[] panelField = new JPanel[2];
+    private JTextField[] field = new JTextField[2];
 
-	public JanelaParaAbrir(Janela janela) 
-	{
-		super("Abrir Desenho");
+    private JPanel[] panelButton = new JPanel[1];
+    private JButton[] button = new JButton[2];
 
-		this.setLayout(new GridLayout(3, 2));
-	        
-		for(int i = 0; i < panelField.length; i++){
-			panelField[i] = new JPanel();
-			panelField[i].setLayout(new GridLayout(1, 0));
+    private String[] label = {"Email: ", "Nome Do Desenho: "};
+    private String[] buttonName = {"Abrir", "Cancelar"};
 
-			field[i] = new JTextField(15);
+    public JanelaParaAbrir(Janela janela) 
+    {
+        super("Abrir Desenho");
 
-			panelField[i].add(new JLabel(label[i]));
-			panelField[i].add(field[i]);
+        this.setLayout(new GridLayout(3, 2));
 
-			this.add(panelField[i]);
-		}
+        for(int i = 0; i < panelField.length; i++){
+            panelField[i] = new JPanel();
+            panelField[i].setLayout(new GridLayout(1, 0));
 
-		for(int i = 0, j = 0; i < panelButton.length; i++)
-		{
+            field[i] = new JTextField(15);
+
+            panelField[i].add(new JLabel(label[i]));
+            panelField[i].add(field[i]);
+
+            this.add(panelField[i]);
+        }
+
+        for(int i = 0, j = 0; i < panelButton.length; i++)
+        {
             panelButton[i] = new JPanel();
             panelButton[i].setLayout(new GridLayout(1, 2));
 
@@ -50,24 +52,24 @@ public class JanelaParaAbrir extends JFrame
             this.add(panelButton[i]);
         }
 
-		button[0].addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				janela.conectarCliente(field[0].getText(), field[1].getText(), false);
-				JanelaParaAbrir.this.dispose();
-            }
-		});
-		button[1].addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				JanelaParaAbrir.this.dispose();
-            }
-		});
+            button[0].addActionListener(new ActionListener()
+            {
+                    public void actionPerformed(ActionEvent e)
+                    {
+                            janela.conectarCliente(field[0].getText(), field[1].getText(), false);
+                            JanelaParaAbrir.this.dispose();
+        }
+            });
+            button[1].addActionListener(new ActionListener()
+            {
+                    public void actionPerformed(ActionEvent e)
+                    {
+                            JanelaParaAbrir.this.dispose();
+        }
+            });
 
         this.setSize (300,150);
         this.setLocationRelativeTo(null);
         this.setVisible (true);
-	}
+    }
 }

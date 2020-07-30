@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cliente_servidor;
 
 /**
- *
- * @author Guilherme
+ * Essa classe tem por objetivo enviar ao cliente qual foi o resultado de sua busca no servidor
+ * @params String resultado
  */
 public class EnvioDeResultado extends Comunicado
 {
