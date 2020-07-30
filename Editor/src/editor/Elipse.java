@@ -1,6 +1,7 @@
 package editor;
 
 import java.awt.*;
+import java.util.StringTokenizer;
 
 public class Elipse extends Figura
 {
@@ -18,7 +19,27 @@ public class Elipse extends Figura
     
     public Elipse(String desenho)
     {
-    	
+        StringTokenizer quebrador = new StringTokenizer(desenho,":");
+
+        quebrador.nextToken();
+
+        int   x1  = Integer.parseInt(quebrador.nextToken());
+        int   y1  = Integer.parseInt(quebrador.nextToken());
+
+        int   x2  = Integer.parseInt(quebrador.nextToken());
+        int   y2  = Integer.parseInt(quebrador.nextToken());
+        
+        int   x3  = Integer.parseInt(quebrador.nextToken());
+        int   y3  = Integer.parseInt(quebrador.nextToken());
+
+        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                               Integer.parseInt(quebrador.nextToken()),  // G
+                               Integer.parseInt(quebrador.nextToken())); // B
+
+        this.p1  = new Ponto (x1,y1,cor);
+        this.p2  = new Ponto (x2,y2,cor);
+        this.p3  = new Ponto (x3,y3,cor);
+        this.cor = cor;
     }
 
     public void setP1(int x, int y)
@@ -69,7 +90,7 @@ public class Elipse extends Figura
 
     private void calculaTamanho(){
 
-        /* Método antigo, não muito bom
+        /* Mï¿½todo antigo, nï¿½o muito bom
         int baseTriangulo, alturaTriangulo, hipotenusa;
 
         // calculo da hipotenusa do 'primeiro' triangulo
@@ -88,7 +109,7 @@ public class Elipse extends Figura
 
         this.altura  = (int) Math.sqrt(hipotenusa);*/
 
-        //Novo método, funciona melhor
+        //Novo mï¿½todo, funciona melhor
         int deltaX, deltaY;
         
         //calculando o primeiro ponto
@@ -171,7 +192,7 @@ public class Elipse extends Figura
     }
     public Elipse(Elipse modelo) throws Exception{
         if(modelo==null){
-            throw new Exception("não pode ser nulo");
+            throw new Exception("nï¿½o pode ser nulo");
         }
         this.p1 = modelo.p1;
         this.p2 = modelo.p2;

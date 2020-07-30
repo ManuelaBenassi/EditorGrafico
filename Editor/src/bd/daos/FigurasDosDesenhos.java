@@ -14,18 +14,35 @@ public class FigurasDosDesenhos {
         boolean retorno = false;
         String sql;
         try {
-            sql = "SELECT * " +
-                    "FROM FIGURASDOSDESENHOS " +
-                    "WHERE IDDESENHO = ? and Id = ?";
+            if(id != 0)
+            {
+                sql = "SELECT * " +
+                "FROM FIGURASDOSDESENHOS " +
+                "WHERE IDDESENHO = ? and Id = ?";
 
-            BDSQLServer.COMANDO.prepareStatement(sql);
+                BDSQLServer.COMANDO.prepareStatement(sql);
 
-            BDSQLServer.COMANDO.setLong(1, idDoDesenho);
-            BDSQLServer.COMANDO.setInt(2, id);
+                BDSQLServer.COMANDO.setLong(1, idDoDesenho);
+                BDSQLServer.COMANDO.setInt(2, id);
 
-            MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
+                MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
 
-            retorno = resultado.first();
+                retorno = resultado.first();   
+            }
+            else
+            {
+                sql = "SELECT * " +
+                "FROM FIGURASDOSDESENHOS " +
+                "WHERE IDDESENHO = ?";
+
+                BDSQLServer.COMANDO.prepareStatement(sql);
+
+                BDSQLServer.COMANDO.setLong(1, idDoDesenho);
+
+                MeuResultSet resultado = (MeuResultSet) BDSQLServer.COMANDO.executeQuery();
+
+                retorno = resultado.first(); 
+            }
         }
         catch (SQLException erro){
             throw new Exception("Erro ao procurar Figura");
@@ -56,19 +73,19 @@ public class FigurasDosDesenhos {
             throw new Exception("Erro ao cadastrar desenho");
         }
     }
-    public static void excluir(int id, long idDoDesenho) throws Exception {
-        if(!FigurasDosDesenhos.cadastrado(idDoDesenho, id))
+    public static void excluir(long idDoDesenho) throws Exception {
+        if(!FigurasDosDesenhos.cadastrado(idDoDesenho, 0))
             throw new Exception("Esse desenho n�o foi cadastrado, portanto � impossivel excluir ele.");
         try
         {
             String sql;
 
-            sql = "DELETE FROM FIGURADOSDESENHOS " +
-                    "WHERE ID=?";
+            sql = "DELETE FROM FIGURASDOSDESENHOS " +
+                    "WHERE IDDESENHO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt (1, id);
+            BDSQLServer.COMANDO.setLong (1, idDoDesenho);
 
             BDSQLServer.COMANDO.executeUpdate ();
             BDSQLServer.COMANDO.commit        ();

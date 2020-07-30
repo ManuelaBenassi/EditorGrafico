@@ -49,7 +49,7 @@ public class SupervisoraDeConexao extends Thread
             new ObjectInputStream(
             this.conexao.getInputStream());
         }
-        catch (Exception err0)
+        catch (Exception erro)
         {
             try
             {
@@ -73,85 +73,81 @@ public class SupervisoraDeConexao extends Thread
 
         try
         {
-            synchronized (this.usuarios)
+            synchronized(this.usuarios)
             {
                 this.usuarios.add (this.usuario);
-                System.out.println("passou aqui");
             }
-
 
             for(;;)
             {
                 Comunicado comunicado = this.usuario.envie();
-            	System.out.println("passou aqui");
             	
             	if(comunicado == null)
             	{
-            		System.out.println("passou aqui");
-            		return;
+                    return;
             	}
             	
             	if(comunicado instanceof PedidoDeSalvamento)
             	{
-            		PedidoDeSalvamento pedido = (PedidoDeSalvamento) comunicado;
-            		Desenho desenho = new Desenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());
-            		System.out.println("passou aqui");
+                    
+                    PedidoDeSalvamento pedido = (PedidoDeSalvamento) comunicado;
+                    Desenho desenho = new Desenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());
             		
+                    try
+                    {
             		if(Desenhos.cadastrado(desenho.getEmailDoDono(), desenho.getNome()))
-            		{
-                            try
-                            {
-                                Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());	
-                                //Desenhos.alterar(desenhoASerAlterado);
-                                desenho = (Desenho)desenhoASerAlterado.clone();
-                            }
-                            catch(Exception a)
-                            {
-                                    System.err.println(a.getMessage());
-                            }
+            		{   
+                            Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());	
+                            desenho = (Desenho)desenhoASerAlterado.clone();
+                            FigurasDosDesenhos.excluir(desenho.getId());
             		}
             		else
             		{
-            			try
-            			{
-            				Desenhos.incluir(desenho);
-                                        Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());	
-                                        desenho = (Desenho) desenhoASerAlterado.clone();
-            			}
-            			catch(Exception a)
-            			{
-            				System.err.println(a.getMessage());
-            			}
+                            Desenhos.incluir(desenho);
+                            Desenho desenhoASerAlterado = Desenhos.getDesenho(desenho.getEmailDoDono(), desenho.getNome());	
+                            desenho = (Desenho) desenhoASerAlterado.clone();	
             		}
             		
             		for(int i = 0; i < pedido.getDesenho().size(); i++)
                         {
-                            try
-                            {
-            			FigurasDosDesenhos.incluir(new FiguraDoDesenho(i+1, pedido.getDesenho().get(i), desenho.getId()));
-                            }
-                            catch(Exception a)
-                            {
-                                System.err.println(a.getMessage());
-                            }
+                            FigurasDosDesenhos.incluir(new FiguraDoDesenho(i+1, pedido.getDesenho().get(i), desenho.getId()));
                         }
             		
+                        usuario.receba(new EnvioDeResultado("Desenho salvo com sucesso!"));
             		this.usuarios.remove(usuario);
             		usuario.adeus();
                         return;
+                    }
+                    catch(Exception erro)
+                    {
+                        usuario.receba(new EnvioDeResultado(erro.getMessage()));
+                        this.usuarios.remove(usuario);
+                        usuario.adeus();
+                        return;
+                    }
             	}
             	
             	if(comunicado instanceof PedidoDeDesenhoSalvo)
             	{
                     PedidoDeDesenhoSalvo pedido = (PedidoDeDesenhoSalvo) comunicado;
+                    
+                    try
+                    {
+                        Desenho desenho = Desenhos.getDesenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());   				
 
-                    Desenho desenho = Desenhos.getDesenho(pedido.getEmailDoDono(), pedido.getNomeDesenho());   				
-
-                    usuario.receba(new DesenhoSalvo(FigurasDosDesenhos.getFiguraDoDesenho(desenho.getId())));
-
-                    this.usuarios.remove(usuario);
-                    usuario.adeus();
-                    return;
+                        usuario.receba(new DesenhoSalvo(FigurasDosDesenhos.getFiguraDoDesenho(desenho.getId())));
+                        
+                        this.usuarios.remove(usuario);
+                        usuario.adeus();
+                        return;
+                    }
+                    catch(Exception erro)
+                    {
+                        usuario.receba(new EnvioDeResultado(erro.getMessage()));
+                        this.usuarios.remove(usuario);
+                        usuario.adeus();
+                        return;
+                    }
             	}
             }
         }
@@ -159,14 +155,12 @@ public class SupervisoraDeConexao extends Thread
         {
             try
             {
+                usuario.receba(new EnvioDeResultado(erro.getMessage()));
                 transmissor.close ();
-                receptor   .close ();
+                receptor   .close ();      
             }
-            catch (Exception falha)
+            catch (Exception a)
             {} // so tentando fechar antes de acabar a thread
-
-
-            return;
         }
     }
 }

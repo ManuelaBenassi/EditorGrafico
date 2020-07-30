@@ -55,7 +55,7 @@ public class JanelaParaAbrir extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				janela.conectarCliente(field[0].getText(), field[1].getText(), false);
-				System.out.println("passou aqui");
+				JanelaParaAbrir.this.dispose();
             }
 		});
 		button[1].addActionListener(new ActionListener()

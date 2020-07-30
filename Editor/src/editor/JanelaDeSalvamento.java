@@ -55,7 +55,7 @@ public class JanelaDeSalvamento extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				janela.conectarCliente(field[0].getText(), field[1].getText(), true);
-				System.out.println("passou aqui");
+				JanelaDeSalvamento.this.dispose();
             }
 		});
 		button[1].addActionListener(new ActionListener()

@@ -49,6 +49,7 @@ public class Janela extends JFrame
     public void recebaDesenho(Vector<String> desenho)
     {
         figuras.removeAllElements();
+        pnlDesenho.removeAll();
         
     	for(int i = 0; i < desenho.size(); i++)
     	{
@@ -76,13 +77,15 @@ public class Janela extends JFrame
     		new Cliente(emailDoDono, nomeDesenho, desenho, janela);
     	else
     		new Cliente(emailDoDono, nomeDesenho, null, janela);
-    	
-    	System.out.println("passou aqui");
+    }
+    
+    public void recebaResultado(String resultado)
+    {
+        JOptionPane.showMessageDialog(null, resultado, "Alerta", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public Janela ()
     {
-        
         super("Editor Grafico");
         this.getContentPane().setBackground(Color.WHITE);
 

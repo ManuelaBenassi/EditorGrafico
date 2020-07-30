@@ -1,6 +1,7 @@
 package editor;
 
 import java.awt.*;
+import java.util.StringTokenizer;
 
 public class Circulo extends Figura
 {
@@ -20,7 +21,23 @@ public class Circulo extends Figura
     
     public Circulo(String dados)
     {
-    	
+        StringTokenizer quebrador = new StringTokenizer(dados,":");
+
+        quebrador.nextToken();
+
+        int   x1  = Integer.parseInt(quebrador.nextToken());
+        int   y1  = Integer.parseInt(quebrador.nextToken());
+
+        int   x2  = Integer.parseInt(quebrador.nextToken());
+        int   y2  = Integer.parseInt(quebrador.nextToken());
+
+        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                               Integer.parseInt(quebrador.nextToken()),  // G
+                               Integer.parseInt(quebrador.nextToken())); // B
+
+        this.p1  = new Ponto (x1,y1,cor);
+        this.p2  = new Ponto (x2,y2,cor);
+        this.cor = cor;
     }
 
     public void setP1(int x, int y)
@@ -60,7 +77,7 @@ public class Circulo extends Figura
 
     private void calculaTamanho()
     {
-        //método antigo, não funcional
+        //mï¿½todo antigo, nï¿½o funcional
         /*int larguraTriangulo = this.p1.getX() - this.p2.getX(); //delta x
         int alturaTriangulo = this.p1.getY() - this.p2.getY(); //delta y
         
@@ -69,7 +86,7 @@ public class Circulo extends Figura
         this.altura = (int)Math.sqrt(hipotenusa); //pega a parte inteira da raiz quadrada da hipotenusa
         this.largura = this.altura; //define as dimensoes*/
 
-        //novo método, funciona melhor
+        //novo mï¿½todo, funciona melhor
         int deltaX, deltaY;
 
         deltaX = this.p1.getX() - this.p2.getX();
@@ -82,13 +99,13 @@ public class Circulo extends Figura
         if(deltaY < 0)
             deltaY = -deltaY;
 
-        if(deltaX >= deltaY) //vejo se a distância entre os dois pontos é maior no eixo X ou no eixo Y
+        if(deltaX >= deltaY) //vejo se a distï¿½ncia entre os dois pontos ï¿½ maior no eixo X ou no eixo Y
         {
             this.altura = deltaX;                               //sendo no eixo x:
                                                                 //-usarei por parametro de distancia o deltaX;
             this.largura = this.altura;                         //-farei ambos os lados do quadrado igauis;
         }
-        else //senão, uso o deltaY como parametro para o tamanho do quadrado
+        else //senï¿½o, uso o deltaY como parametro para o tamanho do quadrado
         {
             this.altura = deltaY;
 
@@ -114,7 +131,7 @@ public class Circulo extends Figura
                this.getCor().getBlue();
     }
 
-    //métodos obrigatorios
+    //mï¿½todos obrigatorios
     @Override
     public Object clone()
     {
@@ -129,7 +146,7 @@ public class Circulo extends Figura
     }
     public Circulo(Circulo modelo) throws Exception{
         if(modelo==null){
-            throw new Exception("não pode ser nulo");
+            throw new Exception("nï¿½o pode ser nulo");
         }
         this.p1 = modelo.p1;
         this.p2 = modelo.p2;

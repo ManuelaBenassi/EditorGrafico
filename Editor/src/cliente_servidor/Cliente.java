@@ -62,15 +62,29 @@ public class Cliente
 		{
 			if (desenho != null)
 			{
-				servidor.receba (new PedidoDeSalvamento (emailDoDono, nomeDesenho, desenho));
-				System.out.println("Enviou o pedido");
+                            servidor.receba (new PedidoDeSalvamento (emailDoDono, nomeDesenho, desenho));
+                            EnvioDeResultado envioDeResultado = (EnvioDeResultado) servidor.envie();
+                            
+                            janela.recebaResultado(envioDeResultado.getResultado());
 			}
 			else 
 			{
-				servidor.receba (new PedidoDeDesenhoSalvo (emailDoDono, nomeDesenho));
-				
-				DesenhoSalvo resultado = (DesenhoSalvo)servidor.envie ();
-				janela.recebaDesenho(resultado.getDesenho());
+                            servidor.receba (new PedidoDeDesenhoSalvo (emailDoDono, nomeDesenho));
+
+                            Comunicado comunicado = servidor.envie ();
+
+                            if(comunicado instanceof EnvioDeResultado)
+                            {
+                                EnvioDeResultado envioDeResultado = (EnvioDeResultado) comunicado;
+                                janela.recebaResultado(envioDeResultado.getResultado());
+                            }
+
+                            if(comunicado instanceof DesenhoSalvo)
+                            {
+                                DesenhoSalvo resultado = (DesenhoSalvo) comunicado;
+                                janela.recebaDesenho(resultado.getDesenho());
+                                janela.recebaResultado("Desenho resgatado com sucesso!");
+                            }				
 			}
 		}
 		catch (Exception erro)
